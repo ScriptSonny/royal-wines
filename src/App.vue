@@ -22,9 +22,6 @@ import MainFooter from './components/MainFooter.vue';
   min-height: 100vh;
 }
 
-.main-content {
-  padding: 20px;
-}
 header, footer {
   width: 100%;
 }
