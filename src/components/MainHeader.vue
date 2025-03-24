@@ -5,7 +5,9 @@
     <!-- Desktop Navigation -->
     <div class="nav-container">
       <div class="nav-actions">
-        <img src="@/assets/logo.png" alt="Royal Wines & Drinks" class="logo" />
+        <router-link to="/" class="logo-link">
+          <img src="@/assets/logo.png" alt="Royal Wines & Drinks" class="logo" />
+        </router-link>
 
         <div class="search-container">
           <Icon icon="material-symbols:search" color="#663333" width="24" style="margin: 8px;" />
@@ -24,7 +26,7 @@
 
       <nav class="nav-links">
         <div class="categories">
-          <a href="#" class="nav-link">Wijnen</a>
+          <router-link to="/wines" class="nav-link">Wijnen</router-link>
           <a href="#" class="nav-link">Overig</a>
           <a href="#" class="nav-link">Kerstpakketten</a>
         </div>
@@ -44,7 +46,9 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" :class="{ active: menuOpen }">
       <div class="mobile-menu-content">
-        <img src="@/assets/logo.png" alt="Royal Wines & Drinks" class="logo mobile-logo" />
+        <router-link to="/">
+          <img src="@/assets/logo.png" alt="Royal Wines & Drinks" class="logo mobile-logo" />
+        </router-link>
 
         <div class="mobile-search-row">
           <div class="search-container">
@@ -63,7 +67,7 @@
         </div>
 
         <nav class="mobile-nav">
-          <a href="#" class="nav-link mobile-nav-link">Wijnen</a>
+          <router-link to="/wines" class="logo-link mobile-nav-link">Wijnen</router-link>
           <a href="#" class="nav-link mobile-nav-link">Overig</a>
           <a href="#" class="nav-link mobile-nav-link">Kerstpakketten</a>
           <button class="btn-prominent mobile-btn">Aanbiedingen</button>
@@ -141,6 +145,12 @@ onUnmounted(() => {
 
 .logo {
   height: 70px;
+}
+
+.logo-link {
+  padding: 0;
+  font-weight: bold;
+  color: #E59F01;
 }
 
 .search-container {

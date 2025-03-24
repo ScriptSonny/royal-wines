@@ -1,4 +1,5 @@
 import HomepageView from '@/views/HomepageView.vue';
+import WinepageView from '@/views/WinepageView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -8,6 +9,11 @@ const router = createRouter({
       path: '/',
       name: 'Home',
       component: HomepageView
+    },
+    {
+      path: '/wines',
+      name: 'Wines',
+      component: WinepageView
     }
   ]
 });
