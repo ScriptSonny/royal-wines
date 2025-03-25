@@ -20,7 +20,7 @@
         </div>
 
         <ProductsHeader :filters-visible="filtersVisible" :results-count="265" :is-mobile="windowWidth <= 768"
-          @toggle-filters="toggleFilters" />
+          @toggle-filters="toggleFilters" @sort="handleSort" />
 
         <div class="products-layout">
           <!-- Desktop filter -->
@@ -131,6 +131,30 @@ const paginatedProducts = computed(() => {
 const handlePageChange = (page: number) => {
   currentPage.value = page;
 };
+
+const handleSort = (option: string) =>
+{
+  const sorted = [...allProducts.value]; // kopie maken zodat reactiviteit behouden blijft
+
+  switch (option)
+  {
+    case 'Prijs: laag - hoog':
+      sorted.sort((a, b) => a.prijs - b.prijs);
+      break;
+    case 'Prijs: hoog - laag':
+      sorted.sort((a, b) => b.prijs - a.prijs);
+      break;
+    case 'Productnaam: A - Z':
+      sorted.sort((a, b) => a.titel.localeCompare(b.titel));
+      break;
+    case 'Productnaam: Z - A':
+      sorted.sort((a, b) => b.titel.localeCompare(a.titel));
+      break;
+  }
+
+  allProducts.value = sorted;
+  currentPage.value = 1; // reset naar 1e pagina
+}
 </script>
 
 <style scoped>

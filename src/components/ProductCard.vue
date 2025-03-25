@@ -42,7 +42,6 @@ defineProps({
 }
 
 .product-image {
-  width: 100px;
   height: 100%;
   object-fit: contain;
 }
