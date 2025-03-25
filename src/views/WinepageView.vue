@@ -19,7 +19,7 @@
           <h1>Wijnen</h1>
         </div>
 
-        <ProductsHeader :filters-visible="filtersVisible" :results-count="265" :is-mobile="windowWidth <= 768"
+        <ProductsHeader :filters-visible="filtersVisible" :results-count="filteredProducts.length" :is-mobile="windowWidth <= 768"
           @toggle-filters="toggleFilters" @sort="handleSort" />
 
         <div class="products-layout">
@@ -60,6 +60,7 @@ import FilterSidebar from "../components/FiltersSidebar.vue";
 import ProductCard from "../components/ProductCard.vue";
 import Pagination from "../components/ProductPagination.vue";
 import { dummyProducts } from "@/data/dummyProducts";
+import { watch } from "vue";
 
 const router = useRouter();
 const filtersVisible = ref(true);
@@ -88,37 +89,99 @@ const toggleFilters = () => {
 
 const goBack = () => router.back();
 
+function generateFilterOptions(products = dummyProducts) {
+  const kleur: Record<string, number> = {};
+  const type: Record<string, number> = {};
+  const grape: Record<string, number> = {};
+  const country: Record<string, number> = {};
+  const region: Record<string, number> = {};
+  const advice: Record<string, number> = {};
+
+  products.forEach((product) => {
+    kleur[product.kleur] = (kleur[product.kleur] || 0) + 1;
+    type[product.type] = (type[product.type] || 0) + 1;
+    grape[product.druivensoort] = (grape[product.druivensoort] || 0) + 1;
+    country[product.land] = (country[product.land] || 0) + 1;
+    region[product.streek] = (region[product.streek] || 0) + 1;
+    product.serveeradvies.forEach((advies) => {
+      advice[advies] = (advice[advies] || 0) + 1;
+    });
+  });
+
+  return { kleur, type, grape, country, region, advice };
+}
+
+const { kleur, type, grape, country, region, advice } = generateFilterOptions();
+
 const filters = ref<FilterOption[]>([
   { key: "prijs", title: "Prijs", type: "range", modelValue: [0, 799], min: 0, max: 799 },
-  {
-    key: "kleur", title: "Kleur", type: "checkbox",
-    options: { Rood: 100, Wit: 150, Rosé: 80 }, modelValue: []
-  },
-  {
-    key: "type", title: "Type", type: "checkbox",
-    options: { Mousserend: 42, Stil: 22, Versterkt: 89 }, modelValue: []
-  },
-  {
-    key: "grape", title: "Druivensoort", type: "checkbox",
-    options: { Chardonnay: 40, Merlot: 50, Sauvignon: 30 }, modelValue: []
-  },
-  {
-    key: "country", title: "Land", type: "radio",
-    options: { Frankrijk: 0, Italië: 0, Spanje: 0, Duitsland: 0 }, modelValue: ""
-  },
-  {
-    key: "region", title: "Streek", type: "checkbox",
-    options: { Bordeaux: 12, Piemonte: 8, Rioja: 6 }, modelValue: []
-  },
-  {
-    key: "advice", title: "Serveer advies", type: "checkbox",
-    options: { Vlees: 23, Vis: 17, Aperitief: 10 }, modelValue: []
-  }
+  { key: "kleur", title: "Kleur", type: "checkbox", options: kleur, modelValue: [] },
+  { key: "type", title: "Type", type: "checkbox", options: type, modelValue: [] },
+  { key: "grape", title: "Druivensoort", type: "checkbox", options: grape, modelValue: [] },
+  { key: "country", title: "Land", type: "radio", options: country, modelValue: "" },
+  { key: "region", title: "Streek", type: "checkbox", options: region, modelValue: [] },
+  { key: "advice", title: "Serveer advies", type: "checkbox", options: advice, modelValue: [] }
 ]);
 
 const handleFilterUpdate = (updated: FilterOption[]) => {
   filters.value = updated;
 };
+
+function buildRegionByCountryMap(products = dummyProducts) {
+  const map: Record<string, Set<string>> = {};
+
+  products.forEach(product => {
+    if (!map[product.land]) {
+      map[product.land] = new Set();
+    }
+    map[product.land].add(product.streek);
+  });
+
+  return map;
+}
+
+const regionByCountry = buildRegionByCountryMap();
+
+const filteredProducts = computed(() => {
+  return dummyProducts.filter((product) => {
+    // Prijs filter
+    const prijsFilter = filters.value.find(f => f.key === "prijs")!;
+    const [minPrijs, maxPrijs] = prijsFilter.modelValue as [number, number];
+    if (product.prijs < minPrijs || product.prijs > maxPrijs) return false;
+
+    // Kleur filter
+    const kleurFilter = filters.value.find(f => f.key === "kleur")!;
+    const kleuren = kleurFilter.modelValue as string[];
+    if (kleuren.length && !kleuren.includes(product.kleur)) return false;
+
+    // Type filter
+    const typeFilter = filters.value.find(f => f.key === "type")!;
+    const types = typeFilter.modelValue as string[];
+    if (types.length && !types.includes(product.type)) return false;
+
+    // Druivensoort filter
+    const grapeFilter = filters.value.find(f => f.key === "grape")!;
+    const grapes = grapeFilter.modelValue as string[];
+    if (grapes.length && !grapes.includes(product.druivensoort)) return false;
+
+    // Land filter (radio)
+    const countryFilter = filters.value.find(f => f.key === "country")!;
+    const land = countryFilter.modelValue as string;
+    if (land && product.land !== land) return false;
+
+    // Streek filter
+    const regionFilter = filters.value.find(f => f.key === "region")!;
+    const regions = regionFilter.modelValue as string[];
+    if (regions.length && !regions.includes(product.streek)) return false;
+
+    // Serveeradvies filter
+    const adviceFilter = filters.value.find(f => f.key === "advice")!;
+    const advies = adviceFilter.modelValue as string[];
+    if (advies.length && !advies.some(a => product.serveeradvies.includes(a))) return false;
+
+    return true;
+  });
+});
 
 const allProducts = ref(dummyProducts);
 
@@ -126,7 +189,7 @@ const currentPage = ref(1);
 const itemsPerPage = computed(() => (filtersVisible.value && windowWidth.value > 768 ? 8 : 12));
 const paginatedProducts = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value;
-  return allProducts.value.slice(start, start + itemsPerPage.value);
+  return filteredProducts.value.slice(start, start + itemsPerPage.value);
 });
 const handlePageChange = (page: number) => {
   currentPage.value = page;
@@ -155,6 +218,28 @@ const handleSort = (option: string) =>
   allProducts.value = sorted;
   currentPage.value = 1; // reset naar 1e pagina
 }
+
+watch(
+  () => filters.value.find(f => f.key === "country")?.modelValue as string,
+  (selectedLand) => {
+    const regionFilter = filters.value.find(f => f.key === "region");
+    if (!regionFilter) return;
+
+    // reset selectie
+    regionFilter.modelValue = [];
+
+    const allRegions = generateFilterOptions().region;
+    const allowedRegions = selectedLand && regionByCountry[selectedLand]
+      ? Array.from(regionByCountry[selectedLand])
+      : Object.keys(allRegions);
+
+    regionFilter.options = Object.fromEntries(
+      Object.entries(allRegions).filter(([region]) =>
+        allowedRegions.includes(region)
+      )
+    );
+  }
+);
 </script>
 
 <style scoped>

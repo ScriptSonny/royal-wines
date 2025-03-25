@@ -13,15 +13,12 @@
       <div v-show="openSections[filter.key]" class="filter-content">
         <!-- Range Slider -->
         <div v-if="filter.type === 'range'">
-          <div
-            class="dual-slider"
-            :style="{
-              '--min': filter.min || 0,
-              '--max': filter.max || 1000,
-              '--val1': (filter.modelValue as [number, number])[0],
-              '--val2': (filter.modelValue as [number, number])[1]
-            }"
-          >
+          <div class="dual-slider" :style="{
+            '--min': filter.min || 0,
+            '--max': filter.max || 1000,
+            '--val1': (filter.modelValue as [number, number])[0],
+            '--val2': (filter.modelValue as [number, number])[1]
+          }">
             <input type="range" :min="filter.min || 0" :max="filter.max || 1000"
               v-model="(filter.modelValue as [number, number])[0]" class="slider thumb-left" />
             <input type="range" :min="filter.min || 0" :max="filter.max || 1000"
@@ -77,7 +74,7 @@ export interface FilterOption {
 }
 
 const props = defineProps<{
-  filters: FilterOption[];
+  filters: FilterOption[],
 }>();
 
 const emit = defineEmits(['update:filters']);
@@ -124,6 +121,12 @@ const toggleSection = (key: string) => {
   font-family: Arial, sans-serif;
 }
 
+.filter-sidebar h2 {
+  color: #663333;
+  font-weight: bold;
+  font-size: 18px;
+}
+
 .filter-section {
   border-bottom: 1px solid #e6e6e6;
   padding: 15px 0;
@@ -154,6 +157,47 @@ const toggleSection = (key: string) => {
 
 .filter-content {
   padding-top: 15px;
+}
+
+.filter-content label {
+  color: #663333;
+}
+
+.price-inputs span {
+  color: #663333;
+}
+
+.filter-content input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #E59F01;
+  background-color: white;
+  margin-right: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.filter-content input[type="checkbox"]:checked {
+  background-color: #E59F01;
+}
+
+.filter-content input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #E59F01;
+  background-color: white;
+  margin-right: 10px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 50%;
+}
+
+.filter-content input[type="radio"]:checked {
+  background-color: #E59F01;
 }
 
 .price-inputs {
