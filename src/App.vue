@@ -1,6 +1,28 @@
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+import MainHeader from './components/MainHeader.vue';
+import MainFooter from './components/MainFooter.vue';
+</script>
+
 <template>
-  <router-view />
+  <div class="app-grid">
+  <MainHeader />
+
+  <main class="main-content">
+  <RouterView />
+  </main>
+  <MainFooter />
+  </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<style scoped>
+.app-grid {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header auto, Content expands, Footer auto */
+  min-height: 100vh;
+}
+
+header, footer {
+  width: 100%;
+}
+</style>
