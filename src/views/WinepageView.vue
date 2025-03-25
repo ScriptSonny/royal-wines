@@ -9,18 +9,24 @@
         </button>
         <router-link to="/" class="breadcrumb-link">Home</router-link>
         <Icon icon="material-symbols:navigate-next" width="20" color="#E59F01" />
-        <span class="breadcrumb-current">Wijnen</span>
+        <span class="breadcrumb-current">
+          {{ searchQuery ? `Zoekresultaten voor: ‘${searchQuery}’` : 'Wijnen' }}
+        </span>
       </div>
     </div>
 
     <div class="wines-container">
+
+      <div v-if="searchQuery" class="search-results-heading">
+        <h2>Zoekresultaten voor: ‘{{ searchQuery }}’</h2>
+      </div>
       <div class="content-container">
         <div class="page-title">
           <h1>Wijnen</h1>
         </div>
 
-        <ProductsHeader :filters-visible="filtersVisible" :results-count="filteredProducts.length" :is-mobile="windowWidth <= 768"
-          @toggle-filters="toggleFilters" @sort="handleSort" />
+        <ProductsHeader :filters-visible="filtersVisible" :results-count="filteredProducts.length"
+          :is-mobile="windowWidth <= 768" @toggle-filters="toggleFilters" @sort="handleSort" />
 
         <div class="products-layout">
           <!-- Desktop filter -->
@@ -53,7 +59,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from "vue";
 import { Icon } from "@iconify/vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import type { FilterOption } from "@/components/FiltersSidebar.vue";
 import ProductsHeader from "../components/ProductsHeader.vue";
 import FilterSidebar from "../components/FiltersSidebar.vue";
@@ -66,6 +72,8 @@ const router = useRouter();
 const filtersVisible = ref(true);
 const showMobileFilter = ref(false);
 const windowWidth = ref(window.innerWidth);
+const route = useRoute();
+const searchQuery = ref(route.query.search?.toString().toLowerCase() || "");
 
 const updateWindowWidth = () => {
   windowWidth.value = window.innerWidth;
@@ -74,6 +82,10 @@ const updateWindowWidth = () => {
     document.body.style.overflow = "";
   }
 };
+
+watch(() => route.query.search, (newSearch) => {
+  searchQuery.value = newSearch?.toString().toLowerCase() || "";
+});
 
 onMounted(() => window.addEventListener("resize", updateWindowWidth));
 onUnmounted(() => window.removeEventListener("resize", updateWindowWidth));
@@ -144,6 +156,9 @@ const regionByCountry = buildRegionByCountryMap();
 
 const filteredProducts = computed(() => {
   return dummyProducts.filter((product) => {
+    if (searchQuery.value && !product.titel.toLowerCase().includes(searchQuery.value)) {
+      return false;
+    }
     // Prijs filter
     const prijsFilter = filters.value.find(f => f.key === "prijs")!;
     const [minPrijs, maxPrijs] = prijsFilter.modelValue as [number, number];
@@ -195,12 +210,10 @@ const handlePageChange = (page: number) => {
   currentPage.value = page;
 };
 
-const handleSort = (option: string) =>
-{
+const handleSort = (option: string) => {
   const sorted = [...allProducts.value]; // kopie maken zodat reactiviteit behouden blijft
 
-  switch (option)
-  {
+  switch (option) {
     case 'Prijs: laag - hoog':
       sorted.sort((a, b) => a.prijs - b.prijs);
       break;
@@ -348,6 +361,17 @@ watch(
 .slide-left-enter-to,
 .slide-left-leave-from {
   transform: translateX(0%);
+}
+
+.search-results-heading {
+  padding: 10px 0;
+  margin: 0 20px;
+}
+
+.search-results-heading h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #5A2D2E;
 }
 
 @media screen and (max-width: 768px) {

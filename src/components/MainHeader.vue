@@ -11,7 +11,7 @@
 
         <div class="search-container">
           <Icon icon="material-symbols:search" color="#663333" width="24" style="margin: 8px;" />
-          <input type="text" placeholder="Zoek..." class="search-input" aria-label="Zoekveld" />
+          <input type="text" placeholder="Zoek..." class="search-input" aria-label="Zoekveld" v-model="searchQuery" @keyup.enter="handleSearch" />
         </div>
 
         <div class="buttons">
@@ -80,9 +80,13 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useRouter, useRoute } from "vue-router";
 
 const menuOpen = ref(false);
 const MOBILE_BREAKPOINT = 768;
+const searchQuery = ref("");
+const router = useRouter();
+const route = useRoute();
 
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
@@ -94,6 +98,20 @@ const checkWindowSize = () => {
     menuOpen.value = false;
     document.body.style.overflow = '';
   }
+};
+
+const handleSearch = () => {
+  const term = searchQuery.value.trim();
+  if (!term) return;
+
+  // Altijd naar /wines voor nu, later uitbreidbaar
+  if (route.path !== "/wines") {
+    router.push({ path: "/wines", query: { search: term } });
+  } else {
+    router.replace({ query: { ...route.query, search: term } });
+  }
+
+  searchQuery.value = "";
 };
 
 onMounted(() => {
