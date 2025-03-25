@@ -57,9 +57,10 @@ defineProps({
 
 .product-info h3 {
   color: #5A2D2E;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   font-family: "Playfair Display", serif;
+  line-height: 1.2;
 }
 
 .volume {
@@ -93,7 +94,7 @@ defineProps({
 }
 
 .info-btn {
-  background-color: white;
+  background-color: transparent;
   border: 2px solid #E59F01;
   color: #E59F01;
 }

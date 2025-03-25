@@ -37,8 +37,8 @@
           <!-- Producten -->
           <div class="products-container">
             <div class="products-grid">
-              <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :title="product.title"
-                :price="product.price" :volume="product.volume" :image="product.image" />
+              <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :title="product.titel"
+                :price="`€ ${product.prijs.toFixed(2)}`" :volume="product.volume" :image="product.image" />
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@ import ProductsHeader from "../components/ProductsHeader.vue";
 import FilterSidebar from "../components/FiltersSidebar.vue";
 import ProductCard from "../components/ProductCard.vue";
 import Pagination from "../components/ProductPagination.vue";
-import wineImage1 from "@/assets/wine_image1.png";
+import { dummyProducts } from "@/data/dummyProducts";
 
 const router = useRouter();
 const filtersVisible = ref(true);
@@ -89,10 +89,14 @@ const toggleFilters = () => {
 const goBack = () => router.back();
 
 const filters = ref<FilterOption[]>([
-  { key: "price", title: "Prijs", type: "range", modelValue: [0, 799], min: 0, max: 799 },
+  { key: "prijs", title: "Prijs", type: "range", modelValue: [0, 799], min: 0, max: 799 },
+  {
+    key: "kleur", title: "Kleur", type: "checkbox",
+    options: { Rood: 100, Wit: 150, Rosé: 80 }, modelValue: []
+  },
   {
     key: "type", title: "Type", type: "checkbox",
-    options: { Rood: 100, Wit: 150, Rosé: 80 }, modelValue: []
+    options: { Mousserend: 42, Stil: 22, Versterkt: 89 }, modelValue: []
   },
   {
     key: "grape", title: "Druivensoort", type: "checkbox",
@@ -116,14 +120,7 @@ const handleFilterUpdate = (updated: FilterOption[]) => {
   filters.value = updated;
 };
 
-const allProducts = ref(
-  Array.from({ length: 20 }, (_, i) => ({
-    title: `Wijn ${i + 1}`,
-    price: `€ ${(8 + i).toFixed(2)}`,
-    volume: 75,
-    image: wineImage1
-  }))
-);
+const allProducts = ref(dummyProducts);
 
 const currentPage = ref(1);
 const itemsPerPage = computed(() => (filtersVisible.value && windowWidth.value > 768 ? 8 : 12));
