@@ -27,7 +27,7 @@
       <nav class="nav-links">
         <div class="categories">
           <router-link to="/wines" class="nav-link">Wijnen</router-link>
-          <a href="#" class="nav-link">Overig</a>
+          <router-link to="/other" class="nav-link">Overig</router-link>
           <a href="#" class="nav-link">Kerstpakketten</a>
         </div>
         <div class="aanbiedingen-container">
@@ -80,13 +80,12 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
 const menuOpen = ref(false);
 const MOBILE_BREAKPOINT = 768;
 const searchQuery = ref("");
 const router = useRouter();
-const route = useRoute();
 
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
@@ -101,15 +100,10 @@ const checkWindowSize = () => {
 };
 
 const handleSearch = () => {
-  const term = searchQuery.value.trim();
+  const term = searchQuery.value.trim().toLowerCase();
   if (!term) return;
 
-  // Altijd naar /wines voor nu, later uitbreidbaar
-  if (route.path !== "/wines") {
-    router.push({ path: "/wines", query: { search: term } });
-  } else {
-    router.replace({ query: { ...route.query, search: term } });
-  }
+  router.push({ path: "/search", query: { search: term } });
 
   searchQuery.value = "";
 };

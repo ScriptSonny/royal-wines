@@ -14,6 +14,7 @@ export interface WineProduct {
   druivensoort: string;
   serveeradvies: string[];
   type: 'Mousserend' | 'Stil' | 'Versterkt';
+  categorie: 'Wijn';
 }
 
 export const dummyProducts: WineProduct[] = [
@@ -30,7 +31,8 @@ export const dummyProducts: WineProduct[] = [
       "Kaas",
       "Vis"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Barolo Riserva",
@@ -44,7 +46,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Sancerre Blanc",
@@ -58,7 +61,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vlees"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Rioja Gran Reserva",
@@ -72,7 +76,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Chianti Classico",
@@ -87,7 +92,8 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Aperitief"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Pouilly-Fumé",
@@ -102,7 +108,8 @@ export const dummyProducts: WineProduct[] = [
       "Kaas",
       "Vis"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Côtes du Rhône",
@@ -117,7 +124,8 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Aperitief"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Zinfandel Reserve",
@@ -132,7 +140,8 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Kaas"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Malbec Mendoza",
@@ -147,7 +156,8 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Sauvignon Blanc Marlborough",
@@ -161,7 +171,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Amarone della Valpolicella",
@@ -176,7 +187,8 @@ export const dummyProducts: WineProduct[] = [
       "Dessert",
       "Vis"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Brunello di Montalcino",
@@ -191,7 +203,8 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Kaas"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Gewürztraminer Alsace",
@@ -205,7 +218,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Tempranillo Roble",
@@ -219,7 +233,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Cabernet Sauvignon Napa",
@@ -234,7 +249,8 @@ export const dummyProducts: WineProduct[] = [
       "Dessert",
       "Aperitief"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Rosé Provence",
@@ -248,7 +264,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Pinot Grigio Veneto",
@@ -263,7 +280,8 @@ export const dummyProducts: WineProduct[] = [
       "Aperitief",
       "Dessert"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Bordeaux Supérieur",
@@ -277,7 +295,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Vinho Verde",
@@ -291,7 +310,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Kaas"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Torrontés Salta",
@@ -305,7 +325,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Chablis Premier Cru",
@@ -319,7 +340,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Syrah Barossa",
@@ -333,7 +355,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Kaas"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Grenache Noir",
@@ -348,7 +371,8 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Montepulciano d'Abruzzo",
@@ -363,7 +387,8 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Carmenère Reserva",
@@ -377,7 +402,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Merlot Stellenbosch",
@@ -391,7 +417,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Vermentino Sardegna",
@@ -405,7 +432,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Kaas"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Nebbiolo Langhe",
@@ -419,7 +447,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vlees"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Cabernet Franc Loire",
@@ -434,7 +463,8 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Petite Sirah",
@@ -449,7 +479,8 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Fiano di Avellino",
@@ -464,7 +495,8 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Kaas"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Viognier Rhône",
@@ -479,7 +511,8 @@ export const dummyProducts: WineProduct[] = [
       "Aperitief",
       "Kaas"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Riesling Mosel",
@@ -493,7 +526,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Tavel Rosé",
@@ -507,7 +541,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Primitivo di Manduria",
@@ -522,7 +557,8 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Aperitief"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Muscadet Sèvre et Maine",
@@ -536,7 +572,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Cava Brut",
@@ -550,7 +587,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vlees"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Valpolicella Ripasso",
@@ -565,7 +603,8 @@ export const dummyProducts: WineProduct[] = [
       "Dessert",
       "Vlees"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Pinot Noir Oregon",
@@ -580,7 +619,8 @@ export const dummyProducts: WineProduct[] = [
       "Dessert",
       "Vlees"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Txakolina",
@@ -594,7 +634,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Blauburgunder Südtirol",
@@ -608,7 +649,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Dolcetto d'Alba",
@@ -623,7 +665,8 @@ export const dummyProducts: WineProduct[] = [
       "Aperitief",
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Rosso di Montalcino",
@@ -638,7 +681,8 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Aperitief"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Franciacorta",
@@ -652,7 +696,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Lambrusco di Sorbara",
@@ -666,7 +711,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
     "titel": "Soave Classico",
@@ -680,7 +726,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Kaas"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Trebbiano d'Abruzzo",
@@ -694,7 +741,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
     "titel": "Aglianico del Vulture",
@@ -709,7 +757,8 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Kaas"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Côtes de Provence",
@@ -723,7 +772,8 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
     "titel": "Marsanne Roussanne",
@@ -737,6 +787,7 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   }
 ]
