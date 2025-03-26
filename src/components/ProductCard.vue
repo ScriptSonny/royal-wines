@@ -42,6 +42,7 @@ defineProps({
 }
 
 .product-image {
+  width: 100%;
   height: 100%;
   object-fit: contain;
 }
@@ -81,7 +82,7 @@ defineProps({
 }
 
 .product-actions button {
-  flex: 1;
+  width: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,5 +112,13 @@ defineProps({
 
 .add-btn:hover {
   background-color: #B8860B;
+}
+
+@media (max-width: 768px) {
+  .product-image {
+    width: 100%;
+    height: 140px;
+    object-fit: contain;
+  }
 }
 </style>
