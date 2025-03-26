@@ -1,11 +1,9 @@
 import ContactForm from '@/views/ContactForm.vue';
 import HomepageView from '@/views/HomepageView.vue';
-<<<<<<< HEAD
 import LinksPage from '@/views/LinksPage.vue';
 import ShoppingBasket from '@/views/ShoppingBasket.vue';
-=======
 import WinepageView from '@/views/WinepageView.vue';
->>>>>>> development
+
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -17,25 +15,24 @@ const router = createRouter({
       component: HomepageView
     },
     {
-<<<<<<< HEAD
       path: '/contact',
       name: 'Contact',
-      Component: ContactForm
+      component: ContactForm
     },
     {
       path: '/links',
       name: 'Links',
-      Component: LinksPage
+      component: LinksPage
     },
     {
-      path: '/shoppingBasket',
-      name: 'Shoppingbasket',
-      Component: ShoppingBasket
-=======
+      path: '/cart',
+      name: 'Cart',
+      component: ShoppingBasket
+    },
+    {
       path: '/wines',
       name: 'Wines',
       component: WinepageView
->>>>>>> development
     }
   ]
 });
