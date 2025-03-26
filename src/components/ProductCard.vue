@@ -39,10 +39,11 @@ defineProps({
   gap: 15px;
   background: linear-gradient(180deg, #FFF0CA 0%, #F8F3E6 100%);
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+  position: relative;
 }
 
 .product-image {
-  width: 100%;
+  width: 100px;
   height: 100%;
   object-fit: contain;
 }
@@ -50,6 +51,7 @@ defineProps({
 .product-info {
   flex: 1;
   width: 100%;
+  height: 70%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -77,6 +79,9 @@ defineProps({
 }
 
 .product-actions {
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
   display: flex;
   gap: 10px;
 }
@@ -116,9 +121,12 @@ defineProps({
 
 @media (max-width: 768px) {
   .product-image {
-    width: 100%;
     height: 140px;
     object-fit: contain;
+  }
+
+  .price {
+    margin-top: 30px;
   }
 }
 </style>
