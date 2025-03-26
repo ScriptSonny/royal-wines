@@ -155,7 +155,7 @@ function buildRegionByCountryMap(products = dummyProducts) {
 const regionByCountry = buildRegionByCountryMap();
 
 const filteredProducts = computed(() => {
-  return dummyProducts.filter((product) => {
+  return allProducts.value.filter((product) => {
     if (searchQuery.value && !product.titel.toLowerCase().includes(searchQuery.value)) {
       return false;
     }
