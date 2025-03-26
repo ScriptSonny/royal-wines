@@ -18,7 +18,7 @@ import MainFooter from './components/MainFooter.vue';
 <style scoped>
 .app-grid {
   display: grid;
-  grid-template-rows: auto 1fr auto; /* Header auto, Content expands, Footer auto */
+  grid-template-rows: auto 1fr auto;
   min-height: 100vh;
 }
 
