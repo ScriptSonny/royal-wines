@@ -18,7 +18,7 @@ export default {
 <style scoped>
 .card
 {
-    background-color: #fef3c7;
+    background-color: linear-gradient(#FFF0CA, #F8F3E6);
     padding: 1rem;
     border-radius: 0.5rem;
     box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
@@ -41,8 +41,8 @@ export default {
     display: block;
     margin: 0.5rem auto 0;
     padding: 0.5rem 1rem;
-    background-color: #facc15;
-    color: white;
+    background-color: #E59F01;
+    color: #E59F01;
     border-radius: 0.5rem;
 }
 

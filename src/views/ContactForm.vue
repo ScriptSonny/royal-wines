@@ -1,23 +1,29 @@
 <template>
     <div>
-        <MainHeader />
         <main>
-            <h2 class="title">Contact</h2>
+            <h2 class="title">{{ title }}</h2>
             <div class="form-container">
-                <Form title="Contact" type="Algemene Vraag" />
+                <Form :title="title" :type="type" />
             </div>
         </main>
-        <MainFooter />
     </div>
 </template>
 
 <script>
-import MainHeader from '@/components/MainHeader.vue';
-import MainFooter from '@/components/MainFooter.vue';
 import Form from '@/components/Form.vue';
 
 export default {
-    components: { MainFooter, MainHeader, Form}
+    props: {
+        title: {
+            type: String,
+            required: true
+        },
+        type: {
+            type: String,
+            required: true
+        }
+    },
+    components: { Form }
 };
 </script>
 
@@ -33,7 +39,7 @@ main
 {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #5a2a02;
+    color: #663333;
     margin-bottom: 2rem;
 }
 

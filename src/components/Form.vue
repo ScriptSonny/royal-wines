@@ -40,7 +40,7 @@ export default {
 
 .form-card 
 {
-  background-color: #fef3c7;
+  background-color: #FAF4E5;
   padding: 2rem;
   border-radius: 0.5rem;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -66,7 +66,7 @@ input, select, textarea
   width: 100%;
   padding: 0.5rem;
   margin-top: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid #663333;
   border-radius: 0.25rem;
 }
 
@@ -80,7 +80,7 @@ input, select, textarea
 {
   margin-left: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #5a2a02;
+  background-color: #663333;
   color: white;
   border-radius: 0.5rem;
 }
@@ -90,8 +90,7 @@ input, select, textarea
   display: block;
   margin-top: 1rem;
   padding: 0.75rem;
-  background-color: #facc15;
-  color: black;
+  color: #E59F01;
   border-radius: 0.5rem;
   text-align: center;
   font-weight: bold;

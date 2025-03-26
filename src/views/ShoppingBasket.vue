@@ -1,6 +1,5 @@
 <template>
     <div class="cart-container">
-        <MainHeader />
         <main class="cart">
             <h2>Winkelwagen</h2>
             <table>
@@ -46,14 +45,11 @@
                 <button class="btn-order">Bestellen</button>
             </div>
         </main>
-        <MainFooter />
     </div>
 </template>
 
 <script setup>
-import (ref, computed ) from "vue";
-import MainFooter from '@/components/MainFooter.vue';
-import MainHeader from '@/components/MainHeader.vue';
+import { ref, computed } from "vue";
 
 const cartItems = ref([
     {
@@ -107,51 +103,6 @@ const removeItem = (index) => {
   margin: auto;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  background: #e4c28b;
-}
-
-.logo {
-  font-weight: bold;
-}
-
-.search-bar input {
-  padding: 5px;
-  border: 1px solid #ccc;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-}
-
-.login-btn,
-.cart-btn {
-  background: white;
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.nav {
-  display: flex;
-  gap: 20px;
-  background: white;
-  padding: 10px;
-  align-items: center;
-}
-
-.btn-offers {
-  background: #d89e34;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
 .cart {
   margin-top: 20px;
 }
@@ -165,7 +116,7 @@ th,
 td {
   padding: 10px;
   text-align: left;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #66333367;
 }
 
 .product {
@@ -181,7 +132,7 @@ td {
 
 .quantity button {
   padding: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #E59F01;
   cursor: pointer;
 }
 
@@ -198,7 +149,7 @@ td {
 }
 
 .btn-order {
-  background: #d89e34;
+  background: #E59F01;
   border: none;
   padding: 10px;
   cursor: pointer;
