@@ -1,16 +1,18 @@
 <template>
     <main class="kerstpakketten">
+      <h1>Kerstpakketten</h1>
       <section class="breadcrumb">
         <button class="back-btn">← Terug</button>
         <span>Home > Kerstpakketten</span>
       </section>
-  
-      <h1>Kerstpakketten</h1>
-      <p>
-        Voor de prijs-bestellijst kunt u een e-mail sturen aan
-        <a href="mailto:verkoop@royalwinesanddrinks.nl">verkoop@royalwinesanddrinks.nl</a>
-        of via het <a href="#">contactformulier</a>.
-      </p>
+
+      <div class="contact-info">
+        <p>
+          Voor de prijs-bestellijst kunt u een e-mail sturen aan
+          <a href="mailto:verkoop@royalwinesanddrinks.nl">verkoop@royalwinesanddrinks.nl</a>
+          of via het <a href="#">contactformulier</a>.
+        </p>
+      </div>
   
       <div class="filter-section">
         <span>40 resultaten</span>
@@ -45,21 +47,26 @@
   <script setup lang="ts">
   import { ref } from 'vue';
   import { Icon } from '@iconify/vue';
+  import PackImage from '@/assets/1.jpg'; 
   
   const products = ref([
-    { id: 1, name: 'Eco-expeditie', image: '/images/eco-expeditie.png' },
-    { id: 2, name: 'Feestnummer', image: '/images/feestnummer.png' },
-    { id: 3, name: 'España olé', image: '/images/espana-ole.png' },
-    { id: 4, name: "ff 'n bakkie", image: '/images/ff-n-bakkie.png' },
-    { id: 5, name: 'Theemoment', image: '/images/theemoment.png' },
-    { id: 6, name: 'Noodgeval', image: '/images/noodgeval.png' },
-    { id: 7, name: 'Elegance', image: '/images/elegance.png' },
-    { id: 8, name: 'Grillige oosters', image: '/images/grillige-oosters.png' },
-    { id: 9, name: 'Soepie!', image: '/images/soepie.png' }
+    { id: 1, name: 'Eco-expeditie', image: PackImage },
+    { id: 2, name: 'Feestnummer', image: PackImage },
+    { id: 3, name: 'España olé', image: PackImage },
+    { id: 4, name: "ff 'n bakkie", image: PackImage },
+    { id: 5, name: 'Theemoment', image: PackImage },
+    { id: 6, name: 'Noodgeval', image: PackImage },
+    { id: 7, name: 'Elegance', image: PackImage },
+    { id: 8, name: 'Grillige oosters', image: PackImage },
+    { id: 9, name: 'Soepie!', image: PackImage }
   ]);
   </script>
   
   <style scoped>
+  a {
+    color:#B8860B;
+  }
+
   .breadcrumb {
     display: flex;
     align-items: center;
@@ -72,9 +79,16 @@
     cursor: pointer;
     margin-right: 8px;
   }
+
+  .contact-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
   
   .filter-section {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
   }
@@ -85,9 +99,12 @@
   
   .product-section {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 900px; /* 3 x 250px + gap */
+    margin: 0 auto;
   }
+
   
   .product-card {
     background: #FFF0CA;

@@ -1,5 +1,6 @@
 import ChristmasPackView from '@/views/ChristmasPackView.vue';
 import HomepageView from '@/views/HomepageView.vue';
+import LoginView from '@/views/LoginView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -11,9 +12,14 @@ const router = createRouter({
       component: HomepageView
     },
     {
-      path: '/',
+      path: '/kerstpakketten',
       name: 'Kerstpakketten',
       component: ChristmasPackView
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: LoginView
     }
   ]
 });
