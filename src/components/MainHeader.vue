@@ -5,11 +5,13 @@
     <!-- Desktop Navigation -->
     <div class="nav-container">
       <div class="nav-actions">
-        <img src="@/assets/logo.png" alt="Royal Wines & Drinks" class="logo" />
+        <router-link to="/" class="logo-link">
+          <img src="@/assets/logo.png" alt="Royal Wines & Drinks" class="logo" />
+        </router-link>
 
         <div class="search-container">
           <Icon icon="material-symbols:search" color="#663333" width="24" style="margin: 8px;" />
-          <input type="text" placeholder="Zoek..." class="search-input" aria-label="Zoekveld" />
+          <input type="text" placeholder="Zoek..." class="search-input" aria-label="Zoekveld" v-model="searchQuery" @keyup.enter="handleSearch" />
         </div>
 
         <div class="buttons">
@@ -24,7 +26,7 @@
 
       <nav class="nav-links">
         <div class="categories">
-          <a href="#" class="nav-link">Wijnen</a>
+          <router-link to="/wines" class="nav-link">Wijnen</router-link>
           <a href="#" class="nav-link">Overig</a>
           <a href="#" class="nav-link">Kerstpakketten</a>
         </div>
@@ -44,7 +46,9 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" :class="{ active: menuOpen }">
       <div class="mobile-menu-content">
-        <img src="@/assets/logo.png" alt="Royal Wines & Drinks" class="logo mobile-logo" />
+        <router-link to="/">
+          <img src="@/assets/logo.png" alt="Royal Wines & Drinks" class="logo mobile-logo" />
+        </router-link>
 
         <div class="mobile-search-row">
           <div class="search-container">
@@ -63,7 +67,7 @@
         </div>
 
         <nav class="mobile-nav">
-          <a href="#" class="nav-link mobile-nav-link">Wijnen</a>
+          <router-link to="/wines" class="logo-link mobile-nav-link">Wijnen</router-link>
           <a href="#" class="nav-link mobile-nav-link">Overig</a>
           <a href="#" class="nav-link mobile-nav-link">Kerstpakketten</a>
           <button class="btn-prominent mobile-btn">Aanbiedingen</button>
@@ -76,9 +80,13 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useRouter, useRoute } from "vue-router";
 
 const menuOpen = ref(false);
 const MOBILE_BREAKPOINT = 768;
+const searchQuery = ref("");
+const router = useRouter();
+const route = useRoute();
 
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
@@ -90,6 +98,20 @@ const checkWindowSize = () => {
     menuOpen.value = false;
     document.body.style.overflow = '';
   }
+};
+
+const handleSearch = () => {
+  const term = searchQuery.value.trim();
+  if (!term) return;
+
+  // Altijd naar /wines voor nu, later uitbreidbaar
+  if (route.path !== "/wines") {
+    router.push({ path: "/wines", query: { search: term } });
+  } else {
+    router.replace({ query: { ...route.query, search: term } });
+  }
+
+  searchQuery.value = "";
 };
 
 onMounted(() => {
@@ -141,6 +163,12 @@ onUnmounted(() => {
 
 .logo {
   height: 70px;
+}
+
+.logo-link {
+  padding: 0;
+  font-weight: bold;
+  color: #E59F01;
 }
 
 .search-container {
