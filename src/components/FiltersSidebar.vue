@@ -1,5 +1,8 @@
 <template>
   <div class="filter-sidebar">
+
+    <button class="reset-btn" @click="resetFilters">Reset filters</button>
+
     <h2>Filters</h2>
 
     <div v-for="filter in filters" :key="filter.key" class="filter-section">
@@ -79,6 +82,13 @@ const props = defineProps<{
 
 const emit = defineEmits(['update:filters']);
 
+const defaultFilters = JSON.parse(JSON.stringify(props.filters));
+
+const resetFilters = () => {
+  const reset = JSON.parse(JSON.stringify(defaultFilters));
+  emit('update:filters', reset);
+};
+
 const openSections = ref<Record<string, boolean>>({});
 onMounted(() => {
   props.filters.forEach((filter) => {
@@ -149,6 +159,21 @@ const toggleSection = (key: string) => {
   font-size: 16px;
   font-weight: bold;
   margin: 0;
+}
+
+.reset-btn {
+  background-color: transparent;
+  border: 2px solid #E59F01;
+  color: #E59F01;
+  font-weight: bold;
+  padding: 6px 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: #E59F01;
+  color: white;
 }
 
 .toggle-icon {
