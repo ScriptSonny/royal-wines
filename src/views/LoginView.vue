@@ -1,106 +1,128 @@
 <template>
-    <main class="login">
-        <section class="breadcrumb">
-            <button class="back-btn">&larr; Terug</button>
-            <span>Home > Login</span>
+    <main class="login-page">
+      <section class="breadcrumb">
+        <button class="back-btn">← Terug</button>
+        <span>Home > Klant-login</span>
+      </section>
+  
+      <h1>Klant-login</h1>
+  
+      <div class="login-container">
+        <!-- Inloggen Section -->
+        <section class="login-section">
+          <h2>Inloggen</h2>
+          <p>Als u nog geen account heeft, klik dan op 'Inlogcode aanvragen'.</p>
+          <label>Gebruikersnaam</label>
+          <input type="text" placeholder="&#xf007; Gebruikersnaam" class="icon-input">
+          <label>Wachtwoord</label>
+          <div class="password-container">
+            <input type="password" placeholder="&#xf084; Wachtwoord" class="icon-input">
+            <span class="eye-icon">👁️</span>
+          </div>
+          <a href="#" @click="showRequestCodeForm">Inlogcode aanvragen</a>
+          <button class="primary-btn">INLOGGEN</button>
         </section>
-
-        <h1>Klant-login</h1>
-        <div class="login-container">
-            <h2>Inloggen</h2>
-            <p>Als u nog geen account heeft, klik dan op 'Inlogcode aanvragen'.</p>
-
-            <label for="username">Gebruikersnaam</label>
-            <div class="input-wrapper">
-                <input id="username" type="text" placeholder="Gebruikersnaam" />
-                <span class="icon">&#128100;</span>
-            </div>
-
-            <label for="password">Wachtwoord</label>
-            <div class="input-wrapper">
-                <input id="password" type="password" placeholder="Wachtwoord" />
-                <span class="icon toggle">&#128065;</span>
-            </div>
-
-            <button class="login-btn">INLOGGEN</button>
-            <a href="#" class="request-code">Inlogcode aanvragen</a>
-        </div>
+  
+        <!-- Inlogcode Aanvragen Section -->
+        <section class="request-code-section" v-if="showRequestForm">
+          <h2>Inlogcode aanvragen</h2>
+          <label>Naam</label>
+          <input type="text" placeholder="&#xf007; Naam" class="icon-input">
+          <label>Organisatie</label>
+          <input type="text" placeholder="&#xf0f7; Organisatie" class="icon-input">
+          <label>E-mailadres</label>
+          <input type="email" placeholder="&#xf0e0; E-mailadres" class="icon-input">
+          <button class="primary-btn">VERSTUREN</button>
+        </section>
+      </div>
     </main>
-</template>
-
-<script setup lang="ts">
-
-</script>
-
-<style scoped>
-.breadcrumb {
+  </template>
+  
+  <script setup lang="ts">
+  import { ref } from 'vue';
+  
+  const showRequestForm = ref(false);
+  
+  const showRequestCodeForm = () => {
+    showRequestForm.value = true;
+  };
+  </script>
+  
+  <style scoped>
+  .login-page {
+    padding: 2rem;
+  }
+  
+  .breadcrumb {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-}
-
-.back-btn {
+  }
+  
+  .back-btn {
     background-color: transparent;
     border: none;
     cursor: pointer;
     margin-right: 8px;
-}
-
-.login-container {
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+  
+  .login-section, .request-code-section {
     background: #FFF0CA;
     padding: 2rem;
-    border-radius: 8px;
+    width: 100%;
     max-width: 400px;
-    margin: 2rem auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2 {
+    border-radius: 8px;
+  }
+  
+  h2 {
     color: #8B4513;
-}
-
-label {
+  }
+  
+  label {
     display: block;
-    margin-top: 1rem;
-    color: #8B4513;
-}
-
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    background: white;
+    margin: 1rem 0 0.5rem;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    overflow: hidden;
-}
-
-input {
-    flex: 1;
-    border: none;
-    padding: 12px;
-    outline: none;
-}
-
-.icon {
-    padding: 12px;
+    font-family: 'FontAwesome', Arial;
+  }
+  
+  .password-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .eye-icon {
+    margin-left: -30px;
+    cursor: pointer;
+  }
+  
+  .primary-btn {
     background-color: #E59F01;
     color: white;
-}
-
-.login-btn {
-    margin-top: 1.5rem;
-    padding: 12px;
-    width: 100%;
-    background-color: #b8860b;
-    color: white;
     border: none;
+    padding: 0.75rem 1.5rem;
     cursor: pointer;
-}
-
-.request-code {
-    display: inline-block;
     margin-top: 1rem;
-    color: #E59F01;
-    text-decoration: none;
-}
-</style>
+  }
+  
+  .primary-btn:hover {
+    background-color: #B8860B;
+  }
+  
+  a {
+    color: #8B4513;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  </style>
