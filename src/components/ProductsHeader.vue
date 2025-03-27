@@ -17,8 +17,8 @@
           <Icon icon="material-symbols:keyboard-arrow-down" />
         </button>
         <div class="sort-menu">
-          <button v-for="option in sortOptions" :key="option" class="sort-option" @click="$emit('sort', option)">
-            {{ option }}
+          <button v-for="option in sortOptions" :key="option.value" class="sort-option" @click="$emit('sort', option.value)">
+            {{ option.label }}
           </button>
         </div>
       </div>
@@ -44,10 +44,10 @@ defineProps({
 defineEmits(['toggle-filters', 'sort']);
 
 const sortOptions = [
-  'Prijs: laag - hoog',
-  'Prijs: hoog - laag',
-  'Productnaam: A - Z',
-  'Productnaam: Z - A'
+  { label: 'Prijs: laag - hoog', value: 'price-asc' },
+  { label: 'Prijs: hoog - laag', value: 'price-desc' },
+  { label: 'Productnaam: A - Z', value: 'name-asc' },
+  { label: 'Productnaam: Z - A', value: 'name-desc' },
 ];
 </script>
 

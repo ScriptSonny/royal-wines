@@ -10,19 +10,19 @@
         <router-link to="/" class="breadcrumb-link">Home</router-link>
         <Icon icon="material-symbols:navigate-next" width="20" color="#E59F01" />
         <span class="breadcrumb-current">
-          {{ searchQuery ? `Zoekresultaten voor: ‘${searchQuery}’` : 'Wijnen' }}
+          {{ searchQuery ? `Zoekresultaten voor: ‘${searchQuery}’` : 'Overig' }}
         </span>
       </div>
     </div>
 
-    <div class="wines-container">
+    <div class="others-container">
 
       <div v-if="searchQuery" class="search-results-heading">
         <h2>Zoekresultaten voor: ‘{{ searchQuery }}’</h2>
       </div>
       <div class="content-container">
         <div class="page-title">
-          <h1>Wijnen</h1>
+          <h1>Overig</h1>
         </div>
 
         <ProductsHeader :filters-visible="filtersVisible" :results-count="filteredProducts.length"
@@ -44,7 +44,7 @@
           <div class="products-container">
             <div class="products-grid">
               <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :title="product.title"
-              :price="product.price"  :volume="product.volume" :image="product.image" />
+                :price="product.price" :volume="product.volume" :image="product.image" />
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ import ProductsHeader from "../components/ProductsHeader.vue";
 import FilterSidebar from "../components/FiltersSidebar.vue";
 import ProductCard from "../components/ProductCard.vue";
 import Pagination from "../components/ProductPagination.vue";
-import { dummyProducts } from "@/data/dummyProducts";
+import { dummyOverig } from "@/data/dummyOverig";
 import { watch } from "vue";
 
 const router = useRouter();
@@ -101,104 +101,43 @@ const toggleFilters = () => {
 
 const goBack = () => router.back();
 
-function generateFilterOptions(products = dummyProducts) {
-  const kleur: Record<string, number> = {};
-  const type: Record<string, number> = {};
-  const grape: Record<string, number> = {};
-  const country: Record<string, number> = {};
-  const region: Record<string, number> = {};
-  const advice: Record<string, number> = {};
+function generateFilterOptions(products = dummyOverig) {
+  const categorie: Record<string, number> = {};
 
   products.forEach((product) => {
-    kleur[product.kleur] = (kleur[product.kleur] || 0) + 1;
-    type[product.type] = (type[product.type] || 0) + 1;
-    grape[product.druivensoort] = (grape[product.druivensoort] || 0) + 1;
-    country[product.land] = (country[product.land] || 0) + 1;
-    region[product.streek] = (region[product.streek] || 0) + 1;
-    product.serveeradvies.forEach((advies) => {
-      advice[advies] = (advice[advies] || 0) + 1;
-    });
+    categorie[product.categorie] = (categorie[product.categorie] || 0) + 1;
   });
-
-  return { kleur, type, grape, country, region, advice };
+  return { categorie };
 }
 
-const { kleur, type, grape, country, region, advice } = generateFilterOptions();
+const { categorie } = generateFilterOptions();
 
 const filters = ref<FilterOption[]>([
+  { key: "categorie", title: "Categorie", type: "checkbox", options: categorie, modelValue: [] },
   { key: "price", title: "price", type: "range", modelValue: [0, 799], min: 0, max: 799 },
-  { key: "kleur", title: "Kleur", type: "checkbox", options: kleur, modelValue: [] },
-  { key: "type", title: "Type", type: "checkbox", options: type, modelValue: [] },
-  { key: "grape", title: "Druivensoort", type: "checkbox", options: grape, modelValue: [] },
-  { key: "country", title: "Land", type: "radio", options: country, modelValue: "" },
-  { key: "region", title: "Streek", type: "checkbox", options: region, modelValue: [] },
-  { key: "advice", title: "Serveer advies", type: "checkbox", options: advice, modelValue: [] }
 ]);
 
 const handleFilterUpdate = (updated: FilterOption[]) => {
   filters.value = updated;
 };
 
-function buildRegionByCountryMap(products = dummyProducts) {
-  const map: Record<string, Set<string>> = {};
-
-  products.forEach(product => {
-    if (!map[product.land]) {
-      map[product.land] = new Set();
-    }
-    map[product.land].add(product.streek);
-  });
-
-  return map;
-}
-
-const regionByCountry = buildRegionByCountryMap();
-
 const filteredProducts = computed(() => {
   return allProducts.value.filter((product) => {
-    if (searchQuery.value && !product.title.toLowerCase().includes(searchQuery.value)) {
-      return false;
-    }
-    // price filter
+    if (searchQuery.value && !product.title.toLowerCase().includes(searchQuery.value)) return false;
+
     const priceFilter = filters.value.find(f => f.key === "price")!;
     const [minprice, maxprice] = priceFilter.modelValue as [number, number];
     if (product.price < minprice || product.price > maxprice) return false;
 
-    // Kleur filter
-    const kleurFilter = filters.value.find(f => f.key === "kleur")!;
-    const kleuren = kleurFilter.modelValue as string[];
-    if (kleuren.length && !kleuren.includes(product.kleur)) return false;
-
-    // Type filter
-    const typeFilter = filters.value.find(f => f.key === "type")!;
-    const types = typeFilter.modelValue as string[];
-    if (types.length && !types.includes(product.type)) return false;
-
-    // Druivensoort filter
-    const grapeFilter = filters.value.find(f => f.key === "grape")!;
-    const grapes = grapeFilter.modelValue as string[];
-    if (grapes.length && !grapes.includes(product.druivensoort)) return false;
-
-    // Land filter (radio)
-    const countryFilter = filters.value.find(f => f.key === "country")!;
-    const land = countryFilter.modelValue as string;
-    if (land && product.land !== land) return false;
-
-    // Streek filter
-    const regionFilter = filters.value.find(f => f.key === "region")!;
-    const regions = regionFilter.modelValue as string[];
-    if (regions.length && !regions.includes(product.streek)) return false;
-
-    // Serveeradvies filter
-    const adviceFilter = filters.value.find(f => f.key === "advice")!;
-    const advies = adviceFilter.modelValue as string[];
-    if (advies.length && !advies.some(a => product.serveeradvies.includes(a))) return false;
+    const categorieFilter = filters.value.find(f => f.key === "categorie")!;
+    const categorieën = categorieFilter.modelValue as string[];
+    if (categorieën.length && !categorieën.includes(product.categorie)) return false;
 
     return true;
   });
 });
 
-const allProducts = ref(dummyProducts);
+const allProducts = ref(dummyOverig);
 
 const currentPage = ref(1);
 const itemsPerPage = computed(() => (filtersVisible.value && windowWidth.value > 768 ? 8 : 12));
@@ -231,32 +170,10 @@ const handleSort = (option: string) => {
   allProducts.value = sorted;
   currentPage.value = 1; // reset naar 1e pagina
 }
-
-watch(
-  () => filters.value.find(f => f.key === "country")?.modelValue as string,
-  (selectedLand) => {
-    const regionFilter = filters.value.find(f => f.key === "region");
-    if (!regionFilter) return;
-
-    // reset selectie
-    regionFilter.modelValue = [];
-
-    const allRegions = generateFilterOptions().region;
-    const allowedRegions = selectedLand && regionByCountry[selectedLand]
-      ? Array.from(regionByCountry[selectedLand])
-      : Object.keys(allRegions);
-
-    regionFilter.options = Object.fromEntries(
-      Object.entries(allRegions).filter(([region]) =>
-        allowedRegions.includes(region)
-      )
-    );
-  }
-);
 </script>
 
 <style scoped>
-.wines-container {
+.others-container {
   width: 980px;
   margin: 0 auto;
 }
@@ -385,7 +302,7 @@ watch(
 }
 
 @media screen and (max-width: 480px) {
-  .wines-container {
+  .others-container {
     width: 100%;
     max-width: none;
   }

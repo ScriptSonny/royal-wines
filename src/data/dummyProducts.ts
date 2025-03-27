@@ -4,9 +4,9 @@ import wineImage3 from '@/assets/wine_image3.png';
 import wineImage4 from '@/assets/wine_image4.png';
 
 export interface WineProduct {
-  titel: string;
+  title: string;
   volume: number;
-  prijs: number;
+  price: number;
   image: string;
   kleur: 'Rood' | 'Wit' | 'Rosé';
   land: string;
@@ -14,13 +14,16 @@ export interface WineProduct {
   druivensoort: string;
   serveeradvies: string[];
   type: 'Mousserend' | 'Stil' | 'Versterkt';
+  categorie: 'Wijn';
+  isSale?: boolean;
+  salesPrice?: number;
 }
 
 export const dummyProducts: WineProduct[] = [
   {
-    "titel": "Château Margaux",
+    "title": "Château Margaux",
     "volume": 75,
-    "prijs": 35.55,
+    "price": 35.55,
     "image": wineImage1,
     "kleur": "Rood",
     "land": "Australië",
@@ -30,12 +33,15 @@ export const dummyProducts: WineProduct[] = [
       "Kaas",
       "Vis"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn",
+    "salesPrice": 30.99,
+    "isSale": true,
   },
   {
-    "titel": "Barolo Riserva",
+    "title": "Barolo Riserva",
     "volume": 75,
-    "prijs": 28.56,
+    "price": 28.56,
     "image": wineImage2,
     "kleur": "Wit",
     "land": "Duitsland",
@@ -44,12 +50,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Sancerre Blanc",
+    "title": "Sancerre Blanc",
     "volume": 75,
-    "prijs": 38.91,
+    "price": 38.91,
     "image": wineImage3,
     "kleur": "Wit",
     "land": "Portugal",
@@ -58,12 +65,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vlees"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Rioja Gran Reserva",
+    "title": "Rioja Gran Reserva",
     "volume": 75,
-    "prijs": 45.19,
+    "price": 45.19,
     "image": wineImage2,
     "kleur": "Rood",
     "land": "Duitsland",
@@ -72,12 +80,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Chianti Classico",
+    "title": "Chianti Classico",
     "volume": 75,
-    "prijs": 43.13,
+    "price": 43.13,
     "image": wineImage4,
     "kleur": "Wit",
     "land": "Zuid Afrika",
@@ -87,12 +96,15 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Aperitief"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn",
+    "salesPrice": 36.99,
+    "isSale": true,
   },
   {
-    "titel": "Pouilly-Fumé",
+    "title": "Pouilly-Fumé",
     "volume": 75,
-    "prijs": 35.86,
+    "price": 35.86,
     "image": wineImage3,
     "kleur": "Wit",
     "land": "Spanje",
@@ -102,12 +114,13 @@ export const dummyProducts: WineProduct[] = [
       "Kaas",
       "Vis"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Côtes du Rhône",
+    "title": "Côtes du Rhône",
     "volume": 75,
-    "prijs": 10.40,
+    "price": 10.40,
     "image": wineImage3,
     "kleur": "Rood",
     "land": "Chili",
@@ -117,12 +130,13 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Aperitief"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Zinfandel Reserve",
+    "title": "Zinfandel Reserve",
     "volume": 75,
-    "prijs": 18.39,
+    "price": 18.39,
     "image": wineImage4,
     "kleur": "Wit",
     "land": "Chili",
@@ -132,12 +146,13 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Kaas"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Malbec Mendoza",
+    "title": "Malbec Mendoza",
     "volume": 75,
-    "prijs": 49.93,
+    "price": 49.93,
     "image": wineImage4,
     "kleur": "Rood",
     "land": "Zuid Afrika",
@@ -147,12 +162,13 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Sauvignon Blanc Marlborough",
+    "title": "Sauvignon Blanc Marlborough",
     "volume": 75,
-    "prijs": 42.18,
+    "price": 42.18,
     "image": wineImage2,
     "kleur": "Rosé",
     "land": "Australië",
@@ -161,12 +177,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Amarone della Valpolicella",
+    "title": "Amarone della Valpolicella",
     "volume": 75,
-    "prijs": 20.31,
+    "price": 20.31,
     "image": wineImage3,
     "kleur": "Rosé",
     "land": "Frankrijk",
@@ -176,12 +193,13 @@ export const dummyProducts: WineProduct[] = [
       "Dessert",
       "Vis"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Brunello di Montalcino",
+    "title": "Brunello di Montalcino",
     "volume": 75,
-    "prijs": 14.22,
+    "price": 14.22,
     "image": wineImage1,
     "kleur": "Rood",
     "land": "Chili",
@@ -191,12 +209,13 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Kaas"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Gewürztraminer Alsace",
+    "title": "Gewürztraminer Alsace",
     "volume": 75,
-    "prijs": 16.08,
+    "price": 16.08,
     "image": wineImage2,
     "kleur": "Rosé",
     "land": "Portugal",
@@ -205,12 +224,15 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn",
+    "salesPrice": 12.99,
+    "isSale": true,
   },
   {
-    "titel": "Tempranillo Roble",
+    "title": "Tempranillo Roble",
     "volume": 75,
-    "prijs": 36.97,
+    "price": 36.97,
     "image": wineImage3,
     "kleur": "Rood",
     "land": "Spanje",
@@ -219,12 +241,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Cabernet Sauvignon Napa",
+    "title": "Cabernet Sauvignon Napa",
     "volume": 75,
-    "prijs": 19.50,
+    "price": 19.50,
     "image": wineImage2,
     "kleur": "Wit",
     "land": "Portugal",
@@ -234,12 +257,13 @@ export const dummyProducts: WineProduct[] = [
       "Dessert",
       "Aperitief"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Rosé Provence",
+    "title": "Rosé Provence",
     "volume": 75,
-    "prijs": 20.38,
+    "price": 20.38,
     "image": wineImage3,
     "kleur": "Rosé",
     "land": "Australië",
@@ -248,12 +272,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Pinot Grigio Veneto",
+    "title": "Pinot Grigio Veneto",
     "volume": 75,
-    "prijs": 23.12,
+    "price": 23.12,
     "image": wineImage1,
     "kleur": "Wit",
     "land": "Spanje",
@@ -263,12 +288,13 @@ export const dummyProducts: WineProduct[] = [
       "Aperitief",
       "Dessert"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Bordeaux Supérieur",
+    "title": "Bordeaux Supérieur",
     "volume": 75,
-    "prijs": 28.80,
+    "price": 28.80,
     "image": wineImage1,
     "kleur": "Rosé",
     "land": "Australië",
@@ -277,12 +303,15 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn",
+    "salesPrice": 25.99,
+    "isSale": true,
   },
   {
-    "titel": "Vinho Verde",
+    "title": "Vinho Verde",
     "volume": 75,
-    "prijs": 20.68,
+    "price": 20.68,
     "image": wineImage3,
     "kleur": "Wit",
     "land": "Italië",
@@ -291,12 +320,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Kaas"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Torrontés Salta",
+    "title": "Torrontés Salta",
     "volume": 75,
-    "prijs": 33.49,
+    "price": 33.49,
     "image": wineImage4,
     "kleur": "Rosé",
     "land": "Portugal",
@@ -305,12 +335,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Chablis Premier Cru",
+    "title": "Chablis Premier Cru",
     "volume": 75,
-    "prijs": 43.47,
+    "price": 43.47,
     "image": wineImage2,
     "kleur": "Rosé",
     "land": "Frankrijk",
@@ -319,12 +350,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Syrah Barossa",
+    "title": "Syrah Barossa",
     "volume": 75,
-    "prijs": 39.15,
+    "price": 39.15,
     "image": wineImage4,
     "kleur": "Wit",
     "land": "Chili",
@@ -333,12 +365,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Kaas"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Grenache Noir",
+    "title": "Grenache Noir",
     "volume": 75,
-    "prijs": 35.83,
+    "price": 35.83,
     "image": wineImage3,
     "kleur": "Wit",
     "land": "Portugal",
@@ -348,12 +381,13 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Montepulciano d'Abruzzo",
+    "title": "Montepulciano d'Abruzzo",
     "volume": 75,
-    "prijs": 41.70,
+    "price": 41.70,
     "image": wineImage1,
     "kleur": "Wit",
     "land": "Australië",
@@ -363,12 +397,13 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Carmenère Reserva",
+    "title": "Carmenère Reserva",
     "volume": 75,
-    "prijs": 32.85,
+    "price": 32.85,
     "image": wineImage3,
     "kleur": "Rosé",
     "land": "Duitsland",
@@ -377,12 +412,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Merlot Stellenbosch",
+    "title": "Merlot Stellenbosch",
     "volume": 75,
-    "prijs": 34.93,
+    "price": 34.93,
     "image": wineImage3,
     "kleur": "Rood",
     "land": "Portugal",
@@ -391,12 +427,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Vermentino Sardegna",
+    "title": "Vermentino Sardegna",
     "volume": 75,
-    "prijs": 22.58,
+    "price": 22.58,
     "image": wineImage3,
     "kleur": "Rood",
     "land": "Australië",
@@ -405,12 +442,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Kaas"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Nebbiolo Langhe",
+    "title": "Nebbiolo Langhe",
     "volume": 75,
-    "prijs": 5.36,
+    "price": 5.36,
     "image": wineImage4,
     "kleur": "Rosé",
     "land": "Portugal",
@@ -419,12 +457,15 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vlees"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn",
+    "salesPrice": 3.99,
+    "isSale": true,
   },
   {
-    "titel": "Cabernet Franc Loire",
+    "title": "Cabernet Franc Loire",
     "volume": 75,
-    "prijs": 13.39,
+    "price": 13.39,
     "image": wineImage4,
     "kleur": "Wit",
     "land": "Zuid Afrika",
@@ -434,12 +475,13 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Petite Sirah",
+    "title": "Petite Sirah",
     "volume": 75,
-    "prijs": 46.27,
+    "price": 46.27,
     "image": wineImage4,
     "kleur": "Rosé",
     "land": "Duitsland",
@@ -449,12 +491,13 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Fiano di Avellino",
+    "title": "Fiano di Avellino",
     "volume": 75,
-    "prijs": 41.80,
+    "price": 41.80,
     "image": wineImage1,
     "kleur": "Rood",
     "land": "Australië",
@@ -464,12 +507,13 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Kaas"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Viognier Rhône",
+    "title": "Viognier Rhône",
     "volume": 75,
-    "prijs": 39.15,
+    "price": 39.15,
     "image": wineImage2,
     "kleur": "Rosé",
     "land": "Australië",
@@ -479,12 +523,13 @@ export const dummyProducts: WineProduct[] = [
       "Aperitief",
       "Kaas"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Riesling Mosel",
+    "title": "Riesling Mosel",
     "volume": 75,
-    "prijs": 49.17,
+    "price": 49.17,
     "image": wineImage4,
     "kleur": "Rosé",
     "land": "Australië",
@@ -493,12 +538,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Tavel Rosé",
+    "title": "Tavel Rosé",
     "volume": 75,
-    "prijs": 48.90,
+    "price": 48.90,
     "image": wineImage4,
     "kleur": "Wit",
     "land": "Australië",
@@ -507,12 +553,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Primitivo di Manduria",
+    "title": "Primitivo di Manduria",
     "volume": 75,
-    "prijs": 43.24,
+    "price": 43.24,
     "image": wineImage2,
     "kleur": "Wit",
     "land": "Chili",
@@ -522,12 +569,13 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Aperitief"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Muscadet Sèvre et Maine",
+    "title": "Muscadet Sèvre et Maine",
     "volume": 75,
-    "prijs": 38.99,
+    "price": 38.99,
     "image": wineImage2,
     "kleur": "Rood",
     "land": "Portugal",
@@ -536,12 +584,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Cava Brut",
+    "title": "Cava Brut",
     "volume": 75,
-    "prijs": 31.18,
+    "price": 31.18,
     "image": wineImage4,
     "kleur": "Rosé",
     "land": "Spanje",
@@ -550,12 +599,15 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vlees"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn",
+    "salesPrice": 25.99,
+    "isSale": true,
   },
   {
-    "titel": "Valpolicella Ripasso",
+    "title": "Valpolicella Ripasso",
     "volume": 75,
-    "prijs": 30.52,
+    "price": 30.52,
     "image": wineImage4,
     "kleur": "Wit",
     "land": "Zuid Afrika",
@@ -565,12 +617,13 @@ export const dummyProducts: WineProduct[] = [
       "Dessert",
       "Vlees"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Pinot Noir Oregon",
+    "title": "Pinot Noir Oregon",
     "volume": 75,
-    "prijs": 34.39,
+    "price": 34.39,
     "image": wineImage1,
     "kleur": "Wit",
     "land": "Duitsland",
@@ -580,12 +633,13 @@ export const dummyProducts: WineProduct[] = [
       "Dessert",
       "Vlees"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Txakolina",
+    "title": "Txakolina",
     "volume": 75,
-    "prijs": 19.90,
+    "price": 19.90,
     "image": wineImage4,
     "kleur": "Wit",
     "land": "Italië",
@@ -594,12 +648,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Blauburgunder Südtirol",
+    "title": "Blauburgunder Südtirol",
     "volume": 75,
-    "prijs": 34.89,
+    "price": 34.89,
     "image": wineImage3,
     "kleur": "Wit",
     "land": "Australië",
@@ -608,12 +663,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Vis"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Dolcetto d'Alba",
+    "title": "Dolcetto d'Alba",
     "volume": 75,
-    "prijs": 26.13,
+    "price": 26.13,
     "image": wineImage4,
     "kleur": "Rosé",
     "land": "Spanje",
@@ -623,12 +679,13 @@ export const dummyProducts: WineProduct[] = [
       "Aperitief",
       "Dessert"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Rosso di Montalcino",
+    "title": "Rosso di Montalcino",
     "volume": 75,
-    "prijs": 39.03,
+    "price": 39.03,
     "image": wineImage1,
     "kleur": "Rood",
     "land": "Portugal",
@@ -638,12 +695,13 @@ export const dummyProducts: WineProduct[] = [
       "Vlees",
       "Aperitief"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Franciacorta",
+    "title": "Franciacorta",
     "volume": 75,
-    "prijs": 45.67,
+    "price": 45.67,
     "image": wineImage3,
     "kleur": "Rosé",
     "land": "Duitsland",
@@ -652,12 +710,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Lambrusco di Sorbara",
+    "title": "Lambrusco di Sorbara",
     "volume": 75,
-    "prijs": 26.85,
+    "price": 26.85,
     "image": wineImage3,
     "kleur": "Rosé",
     "land": "Italië",
@@ -666,12 +725,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Soave Classico",
+    "title": "Soave Classico",
     "volume": 75,
-    "prijs": 15.16,
+    "price": 15.16,
     "image": wineImage3,
     "kleur": "Rood",
     "land": "Duitsland",
@@ -680,12 +740,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Kaas"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Trebbiano d'Abruzzo",
+    "title": "Trebbiano d'Abruzzo",
     "volume": 75,
-    "prijs": 28.50,
+    "price": 28.50,
     "image": wineImage2,
     "kleur": "Wit",
     "land": "Italië",
@@ -694,12 +755,15 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Mousserend"
+    "type": "Mousserend",
+    "categorie": "Wijn",
+    "salesPrice": 24.99,
+    "isSale": true,
   },
   {
-    "titel": "Aglianico del Vulture",
+    "title": "Aglianico del Vulture",
     "volume": 75,
-    "prijs": 44.24,
+    "price": 44.24,
     "image": wineImage3,
     "kleur": "Rood",
     "land": "Spanje",
@@ -709,12 +773,13 @@ export const dummyProducts: WineProduct[] = [
       "Vis",
       "Kaas"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Côtes de Provence",
+    "title": "Côtes de Provence",
     "volume": 75,
-    "prijs": 22.71,
+    "price": 22.71,
     "image": wineImage2,
     "kleur": "Rood",
     "land": "Italië",
@@ -723,12 +788,13 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Dessert"
     ],
-    "type": "Stil"
+    "type": "Stil",
+    "categorie": "Wijn"
   },
   {
-    "titel": "Marsanne Roussanne",
+    "title": "Marsanne Roussanne",
     "volume": 75,
-    "prijs": 19.56,
+    "price": 19.56,
     "image": wineImage1,
     "kleur": "Wit",
     "land": "Australië",
@@ -737,6 +803,9 @@ export const dummyProducts: WineProduct[] = [
     "serveeradvies": [
       "Aperitief"
     ],
-    "type": "Versterkt"
+    "type": "Versterkt",
+    "categorie": "Wijn",
+    "salesPrice": 16.00,
+    "isSale": true,
   }
 ]
