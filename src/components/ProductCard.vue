@@ -1,11 +1,20 @@
 <template>
   <div class="product-card">
+    <div v-if="salesPrice" class="sale-label">
+      SALE
+    </div>
     <img :src="image" alt="Product image" class="product-image" />
 
     <div class="product-info">
       <h3>{{ title }}</h3>
       <p class="volume">{{ volume }} cl</p>
-      <p class="price">{{ price }}</p>
+      <p class="price" v-if="salesPrice">
+        <span class="old-price">€ {{ price.toFixed(2) }}</span>
+        <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
+      </p>
+      <p class="price" v-else>
+        € {{ price.toFixed(2) }}
+      </p>
       <div class="product-actions">
         <button class="info-btn">INFO</button>
         <button class="add-btn">
@@ -20,14 +29,15 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 
-defineProps({
-  title: String,
-  price: String,
-  volume: Number,
-  image: {
-    type: String,
-  }
-});
+interface ProductCardProps {
+  title: string;
+  volume: number;
+  image: string;
+  price: number;
+  salesPrice?: number;
+}
+
+defineProps<ProductCardProps>();
 </script>
 
 <style scoped>
@@ -40,6 +50,19 @@ defineProps({
   background: linear-gradient(180deg, #FFF0CA 0%, #F8F3E6 100%);
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
   position: relative;
+}
+
+.sale-label {
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  background-color: #B02E2E;
+  color: white;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .product-image {
@@ -77,6 +100,18 @@ defineProps({
   color: #B02E2E;
   margin: 4px 0;
 }
+
+.old-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-right: 6px;
+}
+
+.discounted-price {
+  color: #B02E2E;
+  font-weight: bold;
+}
+
 
 .product-actions {
   position: absolute;

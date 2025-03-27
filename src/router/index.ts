@@ -1,5 +1,6 @@
 import HomepageView from '@/views/HomepageView.vue';
 import OtherpageView from '@/views/OtherpageView.vue';
+import SalespageView from '@/views/SalespageView.vue';
 import SearchResultsView from '@/views/SearchResultsView.vue';
 import WinepageView from '@/views/WinepageView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/search',
       name: 'SearchResults',
       component: SearchResultsView
+    },
+    {
+      path: '/sales',
+      name: 'Sales',
+      component: SalespageView
     }
   ]
 });

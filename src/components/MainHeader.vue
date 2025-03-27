@@ -31,7 +31,7 @@
           <a href="#" class="nav-link">Kerstpakketten</a>
         </div>
         <div class="aanbiedingen-container">
-          <button class="btn-prominent">Aanbiedingen</button>
+          <router-link to="/sales" class="btn-prominent">Aanbiedingen</router-link>
         </div>
       </nav>
     </div>
@@ -70,7 +70,7 @@
           <router-link to="/wines" class="logo-link mobile-nav-link">Wijnen</router-link>
           <a href="#" class="nav-link mobile-nav-link">Overig</a>
           <a href="#" class="nav-link mobile-nav-link">Kerstpakketten</a>
-          <button class="btn-prominent mobile-btn">Aanbiedingen</button>
+          <router-link to="/sales" class="btn-prominent mobile-btn">Aanbiedingen</router-link>
         </nav>
       </div>
     </div>
@@ -142,6 +142,12 @@ onUnmounted(() => {
 }
 
 .btn-prominent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 14px;
+
   border: none;
   background-color: #E59F01;
   color: white;
