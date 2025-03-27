@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="wines-container">
+    <div class="others-container">
 
       <div v-if="searchQuery" class="search-results-heading">
         <h2>Zoekresultaten voor: ‘{{ searchQuery }}’</h2>
@@ -43,8 +43,8 @@
           <!-- Producten -->
           <div class="products-container">
             <div class="products-grid">
-              <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :title="product.titel"
-                :price="`€ ${product.prijs.toFixed(2)}`" :volume="product.volume" :image="product.image" />
+              <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :title="product.title"
+                :price="product.price" :volume="product.volume" :image="product.image" />
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@ const { categorie } = generateFilterOptions();
 
 const filters = ref<FilterOption[]>([
   { key: "categorie", title: "Categorie", type: "checkbox", options: categorie, modelValue: [] },
-  { key: "prijs", title: "Prijs", type: "range", modelValue: [0, 799], min: 0, max: 799 },
+  { key: "price", title: "price", type: "range", modelValue: [0, 799], min: 0, max: 799 },
 ]);
 
 const handleFilterUpdate = (updated: FilterOption[]) => {
@@ -123,11 +123,11 @@ const handleFilterUpdate = (updated: FilterOption[]) => {
 
 const filteredProducts = computed(() => {
   return allProducts.value.filter((product) => {
-    if (searchQuery.value && !product.titel.toLowerCase().includes(searchQuery.value)) return false;
+    if (searchQuery.value && !product.title.toLowerCase().includes(searchQuery.value)) return false;
 
-    const prijsFilter = filters.value.find(f => f.key === "prijs")!;
-    const [minPrijs, maxPrijs] = prijsFilter.modelValue as [number, number];
-    if (product.prijs < minPrijs || product.prijs > maxPrijs) return false;
+    const priceFilter = filters.value.find(f => f.key === "price")!;
+    const [minprice, maxprice] = priceFilter.modelValue as [number, number];
+    if (product.price < minprice || product.price > maxprice) return false;
 
     const categorieFilter = filters.value.find(f => f.key === "categorie")!;
     const categorieën = categorieFilter.modelValue as string[];
@@ -153,17 +153,17 @@ const handleSort = (option: string) => {
   const sorted = [...allProducts.value]; // kopie maken zodat reactiviteit behouden blijft
 
   switch (option) {
-    case 'Prijs: laag - hoog':
-      sorted.sort((a, b) => a.prijs - b.prijs);
+    case 'price-asc':
+      sorted.sort((a, b) => a.price - b.price);
       break;
-    case 'Prijs: hoog - laag':
-      sorted.sort((a, b) => b.prijs - a.prijs);
+    case 'price-desc':
+      sorted.sort((a, b) => b.price - a.price);
       break;
-    case 'Productnaam: A - Z':
-      sorted.sort((a, b) => a.titel.localeCompare(b.titel));
+    case 'name-asc':
+      sorted.sort((a, b) => a.title.localeCompare(b.title));
       break;
-    case 'Productnaam: Z - A':
-      sorted.sort((a, b) => b.titel.localeCompare(a.titel));
+    case 'name-desc':
+      sorted.sort((a, b) => b.title.localeCompare(a.title));
       break;
   }
 
@@ -173,7 +173,7 @@ const handleSort = (option: string) => {
 </script>
 
 <style scoped>
-.wines-container {
+.others-container {
   width: 980px;
   margin: 0 auto;
 }
@@ -302,7 +302,7 @@ const handleSort = (option: string) => {
 }
 
 @media screen and (max-width: 480px) {
-  .wines-container {
+  .others-container {
     width: 100%;
     max-width: none;
   }
