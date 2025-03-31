@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Breadcrumb -->
     <div class="breadcrumb-container">
       <div class="breadcrumb">
         <button @click="goBack" class="breadcrumb-back">
@@ -65,7 +64,7 @@ import ProductsHeader from "../components/ProductsHeader.vue";
 import FilterSidebar from "../components/FiltersSidebar.vue";
 import ProductCard from "../components/ProductCard.vue";
 import Pagination from "../components/ProductPagination.vue";
-import { dummyOverig } from "@/data/dummyOverig";
+import { dummyProducts } from "@/data/dummyProducts";
 import { watch } from "vue";
 
 const router = useRouter();
@@ -101,7 +100,7 @@ const toggleFilters = () => {
 
 const goBack = () => router.back();
 
-function generateFilterOptions(products = dummyOverig) {
+function generateFilterOptions(products = dummyProducts) {
   const categorie: Record<string, number> = {};
 
   products.forEach((product) => {
@@ -137,7 +136,7 @@ const filteredProducts = computed(() => {
   });
 });
 
-const allProducts = ref(dummyOverig);
+const allProducts = ref(dummyProducts.filter(product => product.categorie !== 'Wijn'));
 
 const currentPage = ref(1);
 const itemsPerPage = computed(() => (filtersVisible.value && windowWidth.value > 768 ? 8 : 12));

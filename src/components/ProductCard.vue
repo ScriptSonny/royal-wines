@@ -16,7 +16,9 @@
         € {{ price.toFixed(2) }}
       </p>
       <div class="product-actions">
-        <button class="info-btn">INFO</button>
+        <router-link :to="`/product-info/${encodeURIComponent(title)}`" class="info-btn">
+          INFO
+        </router-link>
         <button class="add-btn">
           <Icon icon="mdi:cart" />
           KIES
@@ -62,7 +64,7 @@ defineProps<ProductCardProps>();
   font-size: 0.75rem;
   font-weight: bold;
   z-index: 10;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .product-image {
@@ -134,6 +136,8 @@ defineProps<ProductCardProps>();
 }
 
 .info-btn {
+  text-align: center;
+  width: 80px;
   background-color: transparent;
   border: 2px solid #E59F01;
   color: #E59F01;
