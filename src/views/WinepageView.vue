@@ -110,14 +110,26 @@ function generateFilterOptions(products = dummyProducts) {
   const advice: Record<string, number> = {};
 
   products.forEach((product) => {
-    kleur[product.kleur] = (kleur[product.kleur] || 0) + 1;
-    type[product.type] = (type[product.type] || 0) + 1;
-    grape[product.druivensoort] = (grape[product.druivensoort] || 0) + 1;
-    country[product.land] = (country[product.land] || 0) + 1;
-    region[product.streek] = (region[product.streek] || 0) + 1;
-    product.serveeradvies.forEach((advies) => {
-      advice[advies] = (advice[advies] || 0) + 1;
-    });
+    if (product.kleur) {
+      kleur[product.kleur] = (kleur[product.kleur] || 0) + 1;
+    }
+    if (product.type) {
+      type[product.type] = (type[product.type] || 0) + 1;
+    }
+    if (product.druivensoort) {
+      grape[product.druivensoort] = (grape[product.druivensoort] || 0) + 1;
+    }
+    if (product.land) {
+      country[product.land] = (country[product.land] || 0) + 1;
+    }
+    if (product.streek) {
+      region[product.streek] = (region[product.streek] || 0) + 1;
+    }
+    if (product.serveeradvies) {
+      product.serveeradvies.forEach((advies) => {
+        advice[advies] = (advice[advies] || 0) + 1;
+      });
+    }
   });
 
   return { kleur, type, grape, country, region, advice };
@@ -143,10 +155,12 @@ function buildRegionByCountryMap(products = dummyProducts) {
   const map: Record<string, Set<string>> = {};
 
   products.forEach(product => {
-    if (!map[product.land]) {
-      map[product.land] = new Set();
+    if (product.land && product.streek) {
+      if (!map[product.land]) {
+        map[product.land] = new Set();
+      }
+      map[product.land].add(product.streek);
     }
-    map[product.land].add(product.streek);
   });
 
   return map;
@@ -159,6 +173,7 @@ const filteredProducts = computed(() => {
     if (searchQuery.value && !product.title.toLowerCase().includes(searchQuery.value)) {
       return false;
     }
+
     // price filter
     const priceFilter = filters.value.find(f => f.key === "price")!;
     const [minprice, maxprice] = priceFilter.modelValue as [number, number];
@@ -167,19 +182,19 @@ const filteredProducts = computed(() => {
     // Kleur filter
     const kleurFilter = filters.value.find(f => f.key === "kleur")!;
     const kleuren = kleurFilter.modelValue as string[];
-    if (kleuren.length && !kleuren.includes(product.kleur)) return false;
+    if (kleuren.length && (!product.kleur || !kleuren.includes(product.kleur))) return false;
 
     // Type filter
     const typeFilter = filters.value.find(f => f.key === "type")!;
     const types = typeFilter.modelValue as string[];
-    if (types.length && !types.includes(product.type)) return false;
+    if (types.length && (!product.type || !types.includes(product.type))) return false;
 
     // Druivensoort filter
     const grapeFilter = filters.value.find(f => f.key === "grape")!;
     const grapes = grapeFilter.modelValue as string[];
-    if (grapes.length && !grapes.includes(product.druivensoort)) return false;
+    if (grapes.length && (!product.druivensoort || !grapes.includes(product.druivensoort))) return false;
 
-    // Land filter (radio)
+    // Land filter
     const countryFilter = filters.value.find(f => f.key === "country")!;
     const land = countryFilter.modelValue as string;
     if (land && product.land !== land) return false;
@@ -187,18 +202,18 @@ const filteredProducts = computed(() => {
     // Streek filter
     const regionFilter = filters.value.find(f => f.key === "region")!;
     const regions = regionFilter.modelValue as string[];
-    if (regions.length && !regions.includes(product.streek)) return false;
+    if (regions.length && (!product.streek || !regions.includes(product.streek))) return false;
 
     // Serveeradvies filter
     const adviceFilter = filters.value.find(f => f.key === "advice")!;
     const advies = adviceFilter.modelValue as string[];
-    if (advies.length && !advies.some(a => product.serveeradvies.includes(a))) return false;
+    if (advies.length && (!product.serveeradvies || !advies.some(a => product.serveeradvies!.includes(a)))) return false;
 
     return true;
   });
 });
 
-const allProducts = ref(dummyProducts);
+const allProducts = ref(dummyProducts.filter(product => product.categorie == 'Wijn'));
 
 const currentPage = ref(1);
 const itemsPerPage = computed(() => (filtersVisible.value && windowWidth.value > 768 ? 8 : 12));

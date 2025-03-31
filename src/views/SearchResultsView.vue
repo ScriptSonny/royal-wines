@@ -65,7 +65,6 @@ import ProductsHeader from "../components/ProductsHeader.vue";
 import FilterSidebar from "../components/FiltersSidebar.vue";
 import ProductCard from "../components/ProductCard.vue";
 import Pagination from "../components/ProductPagination.vue";
-import { dummyOverig } from "@/data/dummyOverig";
 import { dummyProducts } from "@/data/dummyProducts";
 import { watch } from "vue";
 
@@ -108,7 +107,7 @@ const searchMatchedProducts = computed(() =>
 
 const goBack = () => router.back();
 
-const allProducts = ref([...dummyProducts, ...dummyOverig]);
+const allProducts = ref([...dummyProducts]);
 
 function generateFilterOptions(products = searchMatchedProducts.value) {
   const categorie: Record<string, number> = {};

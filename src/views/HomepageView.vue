@@ -2,7 +2,7 @@
   <main class="home">
     <section class="hero">
       <h1>Uw partner in wijnen, bier en overige dranken</h1>
-      <button class="cta-btn">ONTDEK ONZE COLLECTIE</button>
+      <router-link to="/wines" class="cta-btn">ONTDEK ONZE COLLECTIE</router-link>
     </section>
 
     <section class="product-section">
@@ -73,10 +73,11 @@ const labelIcons = ['mdi:medal', 'material-symbols:wine-bar-rounded', 'material-
 }
 
 .cta-btn {
+  display: inline-flex;
   border: 1px solid #F3E9D8;
   background-color: transparent;
   color: #F3E9D8;
-  padding: 12px 24px;
+  padding: 10px 20px;
   font-weight: bold;
   cursor: pointer;
   margin-top: 20px;
