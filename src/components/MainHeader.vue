@@ -68,8 +68,8 @@
 
         <nav class="mobile-nav">
           <router-link to="/wines" class="logo-link mobile-nav-link">Wijnen</router-link>
-          <a href="#" class="nav-link mobile-nav-link">Overig</a>
-          <a href="#" class="nav-link mobile-nav-link">Kerstpakketten</a>
+          <router-link to="/other" class="logo-link mobile-nav-link">Overig</router-link>
+          <router-link to="/kerstpakketten" class="logo-link mobile-nav-link">Kerstpakketten</router-link>
           <router-link to="/sales" class="btn-prominent mobile-btn">Aanbiedingen</router-link>
         </nav>
       </div>

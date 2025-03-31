@@ -1,7 +1,7 @@
 <template>
   <div class="products-header">
     <div class="left-side">
-      <button @click="$emit('toggle-filters')" class="fixed-filter-btn">
+      <button v-if="showFilterToggle" @click="$emit('toggle-filters')" class="fixed-filter-btn">
         <Icon :icon="isMobile ? 'material-symbols:filter-list' : 'material-symbols:filter-alt'" class="filter-icon" />
         <span v-if="!isMobile" class="desktop-label">
           {{ filtersVisible ? "Verberg filter" : "Toon filter" }}
@@ -30,25 +30,25 @@
 import { Icon } from "@iconify/vue";
 
 defineProps({
-  filtersVisible: {
+  filtersVisible: Boolean,
+  resultsCount: Number,
+  isMobile: Boolean,
+  showFilterToggle: {
     type: Boolean,
-    required: true
+    default: true
   },
-  resultsCount: {
-    type: Number,
-    required: true
-  },
-  isMobile: Boolean
+  sortOptions: {
+    type: Array as () => { label: string; value: string }[],
+    default: () => [
+      { label: 'Prijs: laag - hoog', value: 'price-asc' },
+      { label: 'Prijs: hoog - laag', value: 'price-desc' },
+      { label: 'Productnaam: A - Z', value: 'name-asc' },
+      { label: 'Productnaam: Z - A', value: 'name-desc' }
+    ]
+  }
 });
 
 defineEmits(['toggle-filters', 'sort']);
-
-const sortOptions = [
-  { label: 'Prijs: laag - hoog', value: 'price-asc' },
-  { label: 'Prijs: hoog - laag', value: 'price-desc' },
-  { label: 'Productnaam: A - Z', value: 'name-asc' },
-  { label: 'Productnaam: Z - A', value: 'name-desc' },
-];
 </script>
 
 <style scoped>
