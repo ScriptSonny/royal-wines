@@ -9,16 +9,12 @@
         <router-link to="/" class="breadcrumb-link">Home</router-link>
         <Icon icon="material-symbols:navigate-next" width="20" color="#E59F01" />
         <span class="breadcrumb-current">
-          {{ searchQuery ? `Zoekresultaten voor: ‘${searchQuery}’` : 'Overig' }}
+          <span class="breadcrumb-current">Overig</span>
         </span>
       </div>
     </div>
 
     <div class="others-container">
-
-      <div v-if="searchQuery" class="search-results-heading">
-        <h2>Zoekresultaten voor: ‘{{ searchQuery }}’</h2>
-      </div>
       <div class="content-container">
         <div class="page-title">
           <h1>Overig</h1>
@@ -58,21 +54,18 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from "vue";
 import { Icon } from "@iconify/vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import type { FilterOption } from "@/components/FiltersSidebar.vue";
 import ProductsHeader from "../components/ProductsHeader.vue";
 import FilterSidebar from "../components/FiltersSidebar.vue";
 import ProductCard from "../components/ProductCard.vue";
 import Pagination from "../components/ProductPagination.vue";
 import { dummyProducts } from "@/data/dummyProducts";
-import { watch } from "vue";
 
 const router = useRouter();
 const filtersVisible = ref(true);
 const showMobileFilter = ref(false);
 const windowWidth = ref(window.innerWidth);
-const route = useRoute();
-const searchQuery = ref(route.query.search?.toString().toLowerCase() || "");
 
 const updateWindowWidth = () => {
   windowWidth.value = window.innerWidth;
@@ -81,10 +74,6 @@ const updateWindowWidth = () => {
     document.body.style.overflow = "";
   }
 };
-
-watch(() => route.query.search, (newSearch) => {
-  searchQuery.value = newSearch?.toString().toLowerCase() || "";
-});
 
 onMounted(() => window.addEventListener("resize", updateWindowWidth));
 onUnmounted(() => window.removeEventListener("resize", updateWindowWidth));
@@ -122,8 +111,6 @@ const handleFilterUpdate = (updated: FilterOption[]) => {
 
 const filteredProducts = computed(() => {
   return allProducts.value.filter((product) => {
-    if (searchQuery.value && !product.title.toLowerCase().includes(searchQuery.value)) return false;
-
     const priceFilter = filters.value.find(f => f.key === "price")!;
     const [minprice, maxprice] = priceFilter.modelValue as [number, number];
     if (product.price < minprice || product.price > maxprice) return false;

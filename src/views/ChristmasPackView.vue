@@ -13,7 +13,7 @@
           of via het <a href="#">contactformulier</a>.
         </p>
       </div>
-  
+
       <div class="filter-section">
         <span>40 resultaten</span>
         <select>
@@ -22,7 +22,7 @@
           <option>Prijs (hoog - laag)</option>
         </select>
       </div>
-  
+
       <section class="product-section">
         <div
           class="product-card"
@@ -35,7 +35,7 @@
           <button class="choose-btn">KIES</button>
         </div>
       </section>
-  
+
       <div class="pagination">
         <button>&lt;</button>
         <span>Pagina 1</span>
@@ -43,12 +43,12 @@
       </div>
     </main>
   </template>
-  
+
   <script setup lang="ts">
   import { ref } from 'vue';
-  import { Icon } from '@iconify/vue';
-  import PackImage from '@/assets/1.jpg'; 
-  
+  // import { Icon } from '@iconify/vue';
+  import PackImage from '@/assets/1.jpg';
+
   const products = ref([
     { id: 1, name: 'Eco-expeditie', image: PackImage },
     { id: 2, name: 'Feestnummer', image: PackImage },
@@ -61,7 +61,7 @@
     { id: 9, name: 'Soepie!', image: PackImage }
   ]);
   </script>
-  
+
   <style scoped>
   a {
     color:#B8860B;
@@ -72,7 +72,7 @@
     align-items: center;
     margin-bottom: 1rem;
   }
-  
+
   .back-btn {
     background-color: transparent;
     border: none;
@@ -85,18 +85,18 @@
     align-items: center;
     gap: 1rem;
   }
-  
+
   .filter-section {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
   }
-  
+
   select {
     padding: 8px;
   }
-  
+
   .product-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -105,19 +105,19 @@
     margin: 0 auto;
   }
 
-  
+
   .product-card {
     background: #FFF0CA;
     padding: 1rem;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
+
   .product-img {
     max-height: 150px;
     margin-bottom: 1rem;
   }
-  
+
   button {
     margin: 0.5rem;
     padding: 8px 16px;
@@ -125,18 +125,17 @@
     border: none;
     color: white;
   }
-  
+
   .info-btn {
     background-color: #E59F01;
   }
-  
+
   .choose-btn {
     background-color: #B8860B;
   }
-  
+
   .pagination button {
     padding: 8px 16px;
     margin: 0 4px;
   }
   </style>
-  

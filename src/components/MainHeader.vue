@@ -28,7 +28,7 @@
         <div class="categories">
           <router-link to="/wines" class="nav-link">Wijnen</router-link>
           <router-link to="/other" class="nav-link">Overig</router-link>
-          <a href="#" class="nav-link">Kerstpakketten</a>
+          <router-link to="/kerstpakketten" class="nav-link">Kerstpakketten</router-link>
         </div>
         <div class="aanbiedingen-container">
           <router-link to="/sales" class="btn-prominent">Aanbiedingen</router-link>
