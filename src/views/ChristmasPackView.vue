@@ -8,9 +8,7 @@
         </button>
         <router-link to="/" class="breadcrumb-link">Home</router-link>
         <Icon icon="material-symbols:navigate-next" width="20" color="#E59F01" />
-        <span class="breadcrumb-current">
-          <span class="breadcrumb-current">Kerstpakketten</span>
-        </span>
+        <span class="breadcrumb-current">Kerstpakketten</span>
       </div>
     </div>
 

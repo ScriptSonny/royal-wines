@@ -11,11 +11,14 @@
 
         <div class="search-container">
           <Icon icon="material-symbols:search" color="#663333" width="24" style="margin: 8px;" />
-          <input type="text" placeholder="Zoek..." class="search-input" aria-label="Zoekveld" v-model="searchQuery" @keyup.enter="handleSearch" />
+          <input type="text" placeholder="Zoek..." class="search-input" aria-label="Zoekveld" v-model="searchQuery"
+            @keyup.enter="handleSearch" />
         </div>
 
         <div class="buttons">
-          <button class="login-btn btn">LOGIN</button>
+          <router-link to="/login" class="login-btn btn">
+            LOGIN
+          </router-link>
           <button class="cart-btn btn">
             <Icon icon="material-symbols:add-shopping-cart" /> € 0,00
           </button>
@@ -127,6 +130,9 @@ onUnmounted(() => {
 
 /* Shared styles */
 .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 2px solid #E59F01;
   background-color: transparent;
   color: #E59F01;
@@ -134,6 +140,7 @@ onUnmounted(() => {
   height: 36px;
   padding: 0 20px;
   min-width: 100px;
+  font-size: 14px;
 }
 
 .btn:hover {
