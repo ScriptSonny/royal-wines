@@ -16,7 +16,8 @@
         </div>
 
         <div class="buttons">
-          <router-link to="/login" class="login-btn btn">
+          <button v-if="isLoggedIn" @click="logout" class="login-btn btn">LOGUIT</button>
+          <router-link v-else to="/login" class="login-btn btn">
             LOGIN
           </router-link>
           <button class="cart-btn btn">
@@ -82,13 +83,27 @@
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, type Ref } from 'vue';
 import { useRouter } from "vue-router";
+import { inject } from 'vue';
 
 const menuOpen = ref(false);
 const MOBILE_BREAKPOINT = 768;
 const searchQuery = ref("");
 const router = useRouter();
+
+const isLoggedIn = inject('isLoggedIn') as Ref<boolean>;
+
+const logout = () => {
+  localStorage.removeItem('isLoggedIn');
+  isLoggedIn.value = false;
+  router.push('/login');
+};
+
+onMounted(() => {
+  isLoggedIn.value = localStorage.getItem('isLoggedIn') === 'true';
+  window.addEventListener('resize', checkWindowSize);
+});
 
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;

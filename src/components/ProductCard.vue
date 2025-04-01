@@ -12,9 +12,17 @@
         <span class="old-price">€ {{ price.toFixed(2) }}</span>
         <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
       </p>
-      <p class="price" v-else>
-        € {{ price.toFixed(2) }}
+      <!-- Alleen tonen als ingelogd -->
+      <p v-if="isLoggedIn">
+        <span v-if="salesPrice" class="price">
+          <span class="old-price">€ {{ price.toFixed(2) }}</span>
+          <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
+        </span>
+        <span v-else class="price">
+          € {{ price.toFixed(2) }}
+        </span>
       </p>
+
       <div class="product-actions">
         <router-link :to="`/product-info/${encodeURIComponent(title)}`" class="info-btn">
           INFO
@@ -27,35 +35,38 @@
     </div>
   </div>
 
-<!-- Besteloverlay -->
-<div v-if="showOverlay" class="overlay-backdrop" @click.self="closeOverlay">
-  <div class="overlay-order">
-    <button class="overlay-close" @click="closeOverlay">×</button>
-    <div class="overlay-content">
-      <img :src="image" class="overlay-img" />
-      <div class="overlay-info">
-        <h2>{{ title }}</h2>
-        <p class="volume">{{ volume }} cl</p>
-        <p class="verpakking">Per verpakking: 6 ds</p>
+  <!-- Besteloverlay -->
+  <div v-if="showOverlay" class="overlay-backdrop" @click.self="closeOverlay">
+    <div class="overlay-order">
+      <button class="overlay-close" @click="closeOverlay">×</button>
+      <div class="overlay-content">
+        <img :src="image" class="overlay-img" />
+        <div class="overlay-info">
+          <h2>{{ title }}</h2>
+          <p class="volume">{{ volume }} cl</p>
+          <p class="verpakking">Per verpakking: 6 ds</p>
 
-        <div class="aantal-container">
-          <span>Aantal:</span>
-          <button @click="decreaseQty">-</button>
-          <input type="number" v-model.number="quantity" min="1" class="aantal-input" />
-          <button @click="increaseQty">+</button>
+          <div class="aantal-container">
+            <span>Aantal:</span>
+            <button @click="decreaseQty">-</button>
+            <input type="number" v-model.number="quantity" min="1" class="aantal-input" />
+            <button @click="increaseQty">+</button>
+          </div>
+
+          <p class="prijs" v-if="isLoggedIn">€ {{ totalPrice.toFixed(2) }}</p>
+          <p class="placeholder" v-if="!isLoggedIn">-</p>
+          <button class="bestel-btn">BESTELLEN</button>
         </div>
-
-        <p class="prijs">€ {{ totalPrice.toFixed(2) }}</p>
-        <button class="bestel-btn">BESTELLEN</button>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import { ref, computed } from 'vue';
+import { inject } from 'vue';
+import type { Ref } from 'vue';
 
 interface ProductCardProps {
   title: string;
@@ -65,6 +76,7 @@ interface ProductCardProps {
   salesPrice?: number;
 }
 
+const isLoggedIn = inject('isLoggedIn') as Ref<boolean>;
 const showOverlay = ref(false);
 const quantity = ref(1);
 
@@ -99,7 +111,7 @@ const totalPrice = computed(() => {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -156,7 +168,8 @@ const totalPrice = computed(() => {
   margin-bottom: 4px;
 }
 
-.volume, .verpakking {
+.volume,
+.verpakking {
   font-size: 14px;
   margin-bottom: 8px;
 }
@@ -203,6 +216,11 @@ const totalPrice = computed(() => {
 .aantal-input[type=number] {
   -moz-appearance: textfield;
   appearance: none;
+}
+
+.placeholder {
+  color: transparent;
+  visibility: hidden;
 }
 
 .prijs {

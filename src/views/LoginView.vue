@@ -12,14 +12,14 @@
         <label for="username">Gebruikersnaam</label>
         <div class="icon-input-wrapper">
           <Icon icon="mdi:account" class="input-icon" />
-          <input id="username" type="text" placeholder="Gebruikersnaam" />
+          <input id="username" type="text" placeholder="Gebruikersnaam" v-model="username" />
         </div>
       </div>
       <div class="input-wrapper">
         <label for="password">Wachtwoord</label>
         <div class="icon-input-wrapper">
           <Icon icon="mdi:lock" class="input-icon" />
-          <input :type="showPassword ? 'text' : 'password'" id="password" placeholder="Wachtwoord" />
+          <input :type="showPassword ? 'text' : 'password'" id="password" placeholder="Wachtwoord" v-model="password" />
           <Icon :icon="showPassword ? 'mdi:eye-off' : 'mdi:eye'" class="eye-icon" @click="togglePassword" />
         </div>
       </div>
@@ -63,21 +63,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, type Ref } from 'vue';
 import { useRouter } from "vue-router";
 import { Icon } from "@iconify/vue";
+import { inject } from 'vue';
+
+const dummyUser = {
+  username: "klant",
+  password: "test123"
+};
+
+const username = ref('');
+const password = ref('');
 
 const router = useRouter();
 const showRequestForm = ref(false);
-const isLoggedIn = ref(false);
+const isLoggedIn = inject('isLoggedIn') as Ref<boolean>;
 
 const showRequestCodeForm = () => {
   showRequestForm.value = true;
 };
 
 const login = () => {
-  isLoggedIn.value = true;
-}
+  if (username.value === dummyUser.username && password.value === dummyUser.password) {
+    localStorage.setItem('isLoggedIn', 'true');
+    isLoggedIn.value = true;
+    router.push('/');
+  } else {
+    alert('Onjuiste gebruikersnaam of wachtwoord');
+  }
+};
 
 const showPassword = ref(false);
 const togglePassword = () => {

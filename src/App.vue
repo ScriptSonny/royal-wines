@@ -2,6 +2,11 @@
 import { RouterView } from 'vue-router'
 import MainHeader from './components/MainHeader.vue';
 import MainFooter from './components/MainFooter.vue';
+
+import { provide, ref } from 'vue';
+
+const isLoggedIn = ref(localStorage.getItem('isLoggedIn') === 'true');
+provide('isLoggedIn', isLoggedIn);
 </script>
 
 <template>
