@@ -41,9 +41,9 @@
               <div class="product-card" v-for="(product, index) in paginatedProducts" :key="index">
                 <img :src="product.image" :alt="product.title" class="product-img" />
                 <h3>{{ product.title }}</h3>
-                <router-link :to="`/product-info/${encodeURIComponent(product.title)}`" class="info-btn">
+                <button class="info-btn" @click="openProductInfo(product)">
                   INFO
-                </router-link>
+                </button>
               </div>
             </div>
           </div>
@@ -52,6 +52,16 @@
         <Pagination :total-pages="Math.ceil(products.length / itemsPerPage)" :current-page="currentPage"
           @page-change="handlePageChange" />
       </div>
+    </div>
+  </div>
+
+  <!-- Product Info Overlay -->
+  <div v-if="showOverlay" class="overlay-backdrop" @click.self="closeOverlay">
+    <div class="overlay-content">
+      <button class="overlay-close" @click="closeOverlay">×</button>
+      <img :src="selectedProduct?.image" :alt="selectedProduct?.title" class="overlay-img" />
+      <h2>{{ selectedProduct?.title }}</h2>
+      <p>{{ selectedProduct?.description }}</p>
     </div>
   </div>
 </template>
@@ -77,67 +87,88 @@ const updateWindowWidth = () => {
   }
 };
 
+interface KerstProduct {
+  title: string;
+  image: string;
+  description: string;
+  categorie: string;
+}
+
 onMounted(() => window.addEventListener("resize", updateWindowWidth));
 onUnmounted(() => window.removeEventListener("resize", updateWindowWidth));
 
 const goBack = () => router.back();
 
-const products = ref([
+const products = ref<KerstProduct[]>([
   {
     title: 'Eco-expeditie',
     image: PackImage,
     description: 'Een duurzaam pakket met koffie, thee, chocolade en verantwoorde snacks.',
-    categorie: 'Kerst'
+    categorie: 'Kerst',
   },
   {
     title: 'Feestnummer',
     image: PackImage,
     description: 'Een sprankelend feestpakket boordevol borrelhapjes en feestelijke drankjes.',
-    categorie: 'Kerst'
+    categorie: 'Kerst',
   },
   {
     title: 'España olé',
     image: PackImage,
     description: 'Een Spaans geïnspireerd pakket met tapas, olijven en een vleugje fiesta.',
-    categorie: 'Kerst'
+    categorie: 'Kerst',
   },
   {
     title: "ff 'n bakkie",
     image: PackImage,
     description: 'Voor de koffieliefhebber: luxe bonen, koekjes en een mok om van te genieten.',
-    categorie: 'Kerst'
+    categorie: 'Kerst',
   },
   {
     title: 'Theemoment',
     image: PackImage,
     description: 'Een rustgevend theepakket met diverse smaken, honing en iets lekkers erbij.',
-    categorie: 'Kerst'
+    categorie: 'Kerst',
   },
   {
     title: 'Noodgeval',
     image: PackImage,
     description: 'Een grappig overlevingspakket vol snacks en drankjes voor onverwachte situaties.',
-    categorie: 'Kerst'
+    categorie: 'Kerst',
   },
   {
     title: 'Elegance',
     image: PackImage,
     description: 'Een stijlvol pakket met verfijnde producten, perfect voor een chique kerst.',
-    categorie: 'Kerst'
+    categorie: 'Kerst',
   },
   {
-    title: 'Grillige oosters',
+    title: 'Grillig oosters',
     image: PackImage,
     description: 'Een kruidig en exotisch pakket met Aziatische sauzen, snacks en recepten.',
-    categorie: 'Kerst'
+    categorie: 'Kerst',
   },
   {
-    title: 'Soepie!',
+    title: 'Soepje!',
     image: PackImage,
     description: 'Een warm pakket vol soepen, toastjes en comfortfood voor koude dagen.',
-    categorie: 'Kerst'
+    categorie: 'Kerst',
   }
 ]);
+
+const selectedProduct = ref<KerstProduct | null>(null);
+
+const showOverlay = ref(false);
+
+const openProductInfo = (product: KerstProduct) => {
+  selectedProduct.value = product;
+  showOverlay.value = true;
+};
+
+const closeOverlay = () => {
+  selectedProduct.value = null;
+  showOverlay.value = false;
+};
 
 const currentPage = ref(1);
 const itemsPerPage = 12;
@@ -168,6 +199,45 @@ const handleSort = (option: string) => {
 </script>
 
 <style scoped>
+.overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.overlay-content {
+  background: linear-gradient(to bottom, #FFF0CA 38%, #F8F3E6 100%);
+  border: 2px solid #663333;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
+
+.overlay-img {
+  max-height: 150px;
+  margin-bottom: 1rem;
+}
+
+.overlay-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #663333;
+}
+
 .kerstpakketten-container {
   width: 980px;
   margin: 0 auto;

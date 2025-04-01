@@ -2,6 +2,7 @@ import wineImage1 from '@/assets/wine_image1.png'
 import wineImage2 from '@/assets/wine_image2.png'
 import wineImage3 from '@/assets/wine_image3.png'
 import wineImage4 from '@/assets/wine_image4.png'
+import wineView from '@/assets/wine_view.png'
 import drink from '@/assets/drink.png'
 
 export interface Products {
@@ -39,6 +40,36 @@ export const dummyProducts: Products[] = [
     artikelNr: 7929091101,
     salesPrice: 30.99,
     isSale: true,
+  },
+  {
+    title: 'Barros Porto',
+    volume: 75,
+    description: `In de neus aroma’s van zomers rood fruit met een touch van zwarte peper. Het fruit en de zachte tannines zorgen voor volume, een harmonieuze structuur en een lange afdronk die omhuld wordt door tonen van koffie. James Suckling beoordeelt de wijn steevast met 90 punten of meer.`,
+    price: 35.55,
+    image: wineView,
+    kleur: 'Rood',
+    land: 'Australië',
+    streek: 'McLaren Vale',
+    druivensoort: 'Pinot Noir',
+    serveeradvies: ['Kaas', 'Vis'],
+    type: 'Mousserend',
+    categorie: 'Wijn',
+    artikelNr: 7929091101,
+  },
+  {
+    title: 'Barros Colheita',
+    volume: 75,
+    description: `In de neus aroma’s van zomers rood fruit met een touch van zwarte peper. Het fruit en de zachte tannines zorgen voor volume, een harmonieuze structuur en een lange afdronk die omhuld wordt door tonen van koffie. James Suckling beoordeelt de wijn steevast met 90 punten of meer.`,
+    price: 31.55,
+    image: wineView,
+    kleur: 'Rood',
+    land: 'Portugal',
+    streek: 'Douro',
+    druivensoort: 'Pinot Noir',
+    serveeradvies: ['Kaas', 'Vis'],
+    type: 'Mousserend',
+    categorie: 'Wijn',
+    artikelNr: 7929091164,
   },
   {
     title: 'Barolo Riserva',

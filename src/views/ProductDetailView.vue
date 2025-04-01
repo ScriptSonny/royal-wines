@@ -25,7 +25,7 @@
             <h1>{{ product.title }}</h1>
             <h2>{{ product.volume }} cl</h2>
 
-            <button class="add-btn">
+            <button class="add-btn" @click="openAddOverlay">
               <Icon icon="mdi:cart" />
               TOEVOEGEN
             </button>
@@ -58,6 +58,33 @@
       <h3>Beschrijving</h3>
       <p>{{ product.description }}</p>
     </section>
+
+    <!-- Bestel-overlay -->
+    <div v-if="showAddOverlay" class="overlay-backdrop" @click.self="closeAddOverlay">
+      <div class="overlay-order">
+        <button class="overlay-close" @click="closeAddOverlay">×</button>
+
+        <div class="overlay-content">
+          <img :src="product?.image" class="overlay-img" />
+
+          <div class="overlay-info">
+            <h2>{{ product?.title }}</h2>
+            <p class="volume">{{ product?.volume }} cl</p>
+            <p class="verpakking">Per verpakking: 6 ds</p>
+
+            <div class="aantal-container">
+              <span>Aantal:</span>
+              <button @click="decreaseQty">-</button>
+              <input type="number" v-model.number="quantity" min="1" class="aantal-input" />
+              <button @click="increaseQty">+</button>
+            </div>
+
+            <p class="prijs">€ {{ totalPrice.toFixed(2) }}</p>
+            <button class="bestel-btn">BESTELLEN</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -65,7 +92,7 @@
 import { Icon } from '@iconify/vue';
 import { useRouter, useRoute } from 'vue-router';
 import { dummyProducts } from '@/data/dummyProducts';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import type { Products } from '@/data/dummyProducts';
 
 const route = useRoute();
@@ -76,6 +103,28 @@ const product = ref<Products | undefined>();
 
 const productSlug = route.params.product?.toString().toLowerCase() || "";
 const match = dummyProducts.find(p => p.title.toLowerCase() === productSlug);
+
+const showAddOverlay = ref(false);
+const quantity = ref(1);
+
+const openAddOverlay = () => {
+  showAddOverlay.value = true;
+  quantity.value = 1;
+};
+
+const closeAddOverlay = () => {
+  showAddOverlay.value = false;
+};
+
+const increaseQty = () => quantity.value++;
+const decreaseQty = () => {
+  if (quantity.value > 1) quantity.value--;
+};
+
+const totalPrice = computed(() => {
+  const basePrice = product.value?.salesPrice ?? product.value?.price ?? 0;
+  return basePrice * quantity.value;
+});
 
 if (!match) {
   router.push('/');
@@ -94,6 +143,7 @@ if (!match) {
 .content-container {
   max-width: 948px;
   margin: 0 auto;
+  padding-bottom: 40px;
 }
 
 .breadcrumb {
@@ -146,6 +196,7 @@ if (!match) {
 
 .product-info {
   width: 50%;
+  color: #663333;
 }
 
 .add-btn {
@@ -241,6 +292,154 @@ if (!match) {
 @media screen and (min-width: 768px) {
   .breadcrumb-container {
     min-height: 500px;
+  }
+}
+
+.overlay-order {
+  background: linear-gradient(to bottom, #FFF0CA 38%, #F8F3E6 100%);
+  padding: 2rem;
+  max-width: 450px;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 2px solid #663333;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.overlay-img {
+  height: 220px;
+  max-width: 140px;
+  object-fit: cover;
+  flex: 1;
+}
+
+.overlay-info {
+  flex: 2;
+  color: #663333;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.overlay-info h2 {
+  font-size: 20px;
+  color: #5A2D2E;
+  margin-bottom: 4px;
+}
+
+.volume, .verpakking {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.volume {
+  font-weight: bold;
+}
+
+.aantal-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.aantal-container button {
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: transparent;
+  border: 2px solid #663333;
+  color: #663333;
+  cursor: pointer;
+}
+
+.aantal-container button:hover {
+  background-color: #663333;
+  color: #F8F3E6;
+}
+
+.aantal-input {
+  width: 48px;
+  height: 32px;
+  text-align: center;
+  font-size: 16px;
+  border: 2px solid #663333;
+  color: #663333;
+  background-color: transparent;
+}
+
+.aantal-input::-webkit-inner-spin-button,
+.aantal-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.aantal-input[type=number] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.prijs {
+  font-size: 24px;
+  font-weight: bold;
+  color: #B02E2E;
+  margin-bottom: 12px;
+}
+
+.bestel-btn {
+  align-self: flex-end;
+  background-color: #E59F01;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.bestel-btn:hover {
+  background-color: #B8860B;
+}
+
+.overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #663333;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .overlay-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .overlay-img {
+    height: 120px;
   }
 }
 </style>

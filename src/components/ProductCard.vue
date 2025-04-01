@@ -19,17 +19,43 @@
         <router-link :to="`/product-info/${encodeURIComponent(title)}`" class="info-btn">
           INFO
         </router-link>
-        <button class="add-btn">
+        <button class="add-btn" @click="openOverlay">
           <Icon icon="mdi:cart" />
           KIES
         </button>
       </div>
     </div>
   </div>
+
+<!-- Besteloverlay -->
+<div v-if="showOverlay" class="overlay-backdrop" @click.self="closeOverlay">
+  <div class="overlay-order">
+    <button class="overlay-close" @click="closeOverlay">×</button>
+    <div class="overlay-content">
+      <img :src="image" class="overlay-img" />
+      <div class="overlay-info">
+        <h2>{{ title }}</h2>
+        <p class="volume">{{ volume }} cl</p>
+        <p class="verpakking">Per verpakking: 6 ds</p>
+
+        <div class="aantal-container">
+          <span>Aantal:</span>
+          <button @click="decreaseQty">-</button>
+          <input type="number" v-model.number="quantity" min="1" class="aantal-input" />
+          <button @click="increaseQty">+</button>
+        </div>
+
+        <p class="prijs">€ {{ totalPrice.toFixed(2) }}</p>
+        <button class="bestel-btn">BESTELLEN</button>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
+import { ref, computed } from 'vue';
 
 interface ProductCardProps {
   title: string;
@@ -39,10 +65,167 @@ interface ProductCardProps {
   salesPrice?: number;
 }
 
-defineProps<ProductCardProps>();
+const showOverlay = ref(false);
+const quantity = ref(1);
+
+const props = defineProps<ProductCardProps>();
+
+const increaseQty = () => quantity.value++;
+const decreaseQty = () => {
+  if (quantity.value > 1) quantity.value--;
+};
+
+const openOverlay = () => {
+  showOverlay.value = true;
+  quantity.value = 1;
+};
+
+const closeOverlay = () => {
+  showOverlay.value = false;
+};
+
+const totalPrice = computed(() => {
+  const base = props.salesPrice ?? props.price;
+  return base * quantity.value;
+});
+
 </script>
 
 <style scoped>
+/* Overlay styles */
+.overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.overlay-order {
+  background: linear-gradient(to bottom, #FFF0CA 38%, #F8F3E6 100%);
+  padding: 2rem;
+  max-width: 450px;
+  width: 95%;
+  border: 2px solid #663333;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: #663333;
+  cursor: pointer;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.overlay-img {
+  height: 220px;
+  max-width: 140px;
+  object-fit: cover;
+  flex: 1;
+}
+
+.overlay-info {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #663333;
+}
+
+.overlay-info h2 {
+  font-size: 20px;
+  color: #5A2D2E;
+  margin-bottom: 4px;
+}
+
+.volume, .verpakking {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.aantal-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.aantal-container button {
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: transparent;
+  border: 2px solid #663333;
+  color: #663333;
+  cursor: pointer;
+}
+
+.aantal-container button:hover {
+  background-color: #663333;
+  color: #F8F3E6;
+}
+
+.aantal-input {
+  width: 48px;
+  height: 32px;
+  text-align: center;
+  font-size: 16px;
+  border: 2px solid #663333;
+  background: transparent;
+  color: #663333;
+}
+
+.aantal-input::-webkit-inner-spin-button,
+.aantal-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.aantal-input[type=number] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.prijs {
+  font-size: 24px;
+  font-weight: bold;
+  color: #B02E2E;
+  margin-bottom: 12px;
+}
+
+.bestel-btn {
+  align-self: flex-end;
+  background-color: #E59F01;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.bestel-btn:hover {
+  background-color: #B8860B;
+}
+
 .product-card {
   display: flex;
   height: 150px;

@@ -18,7 +18,9 @@
         <img :src="product.image" :alt="product.name" class="product-img" />
         <h3>{{ product.name }}</h3>
         <p>{{ product.subtitle }}</p>
-        <button class="btn">Bekijk wijn</button>
+        <router-link :to="`/product-info/${encodeURIComponent(product.name)}`" class="btn">
+          Bekijk wijn
+        </router-link>
       </div>
     </section>
   </main>
@@ -134,12 +136,14 @@ const labelIcons = ['mdi:medal', 'material-symbols:wine-bar-rounded', 'material-
 }
 
 .btn {
+  display: inline-block;
   margin-top: 1rem;
   background-color: #E59F01;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 6px 16px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .btn:hover {
