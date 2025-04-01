@@ -54,7 +54,7 @@
           </div>
 
           <p class="prijs" v-if="isLoggedIn">€ {{ totalPrice.toFixed(2) }}</p>
-          <p v-if="!isLoggedIn">-</p>
+          <p class="placeholder" v-if="!isLoggedIn">-</p>
           <button class="bestel-btn">BESTELLEN</button>
         </div>
       </div>
@@ -216,6 +216,11 @@ const totalPrice = computed(() => {
 .aantal-input[type=number] {
   -moz-appearance: textfield;
   appearance: none;
+}
+
+.placeholder {
+  color: transparent;
+  visibility: hidden;
 }
 
 .prijs {

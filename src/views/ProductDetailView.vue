@@ -35,7 +35,7 @@
             <div class="price" v-if="isLoggedIn">
               € {{ product.salesPrice?.toFixed(2) ?? product.price.toFixed(2) }}
             </div>
-            <div class="placeholder" v-if="!isLoggedIn"></div>
+            <div class="placeholder-big" v-if="!isLoggedIn"></div>
 
             <ul class="details">
               <li><strong>Artikelnr:</strong>&nbsp;<span>{{ product.artikelNr }}</span></li>
@@ -195,7 +195,10 @@ if (!match) {
 
 .product-image img {
   height: 100%;
+}
 
+.placeholder-big {
+  margin-top: 30px;
 }
 
 .product-info {
@@ -264,7 +267,8 @@ if (!match) {
 }
 
 .placeholder {
-  margin-top: 30px;
+  color: transparent;
+  visibility: hidden;
 }
 
 @media screen and (max-width: 768px) {
