@@ -32,9 +32,10 @@
 
             <hr />
 
-            <div class="price">
+            <div class="price" v-if="isLoggedIn">
               € {{ product.salesPrice?.toFixed(2) ?? product.price.toFixed(2) }}
             </div>
+            <div class="placeholder" v-if="!isLoggedIn"></div>
 
             <ul class="details">
               <li><strong>Artikelnr:</strong>&nbsp;<span>{{ product.artikelNr }}</span></li>
@@ -79,7 +80,8 @@
               <button @click="increaseQty">+</button>
             </div>
 
-            <p class="prijs">€ {{ totalPrice.toFixed(2) }}</p>
+            <p class="prijs" v-if="isLoggedIn">€ {{ totalPrice.toFixed(2) }}</p>
+            <p class="placeholder" v-if="!isLoggedIn">-</p>
             <button class="bestel-btn">BESTELLEN</button>
           </div>
         </div>
@@ -92,7 +94,8 @@
 import { Icon } from '@iconify/vue';
 import { useRouter, useRoute } from 'vue-router';
 import { dummyProducts } from '@/data/dummyProducts';
-import { computed, ref } from 'vue';
+import { computed, ref, type Ref } from 'vue';
+import { inject } from 'vue';
 import type { Products } from '@/data/dummyProducts';
 
 const route = useRoute();
@@ -100,6 +103,7 @@ const router = useRouter();
 const goBack = () => router.back();
 
 const product = ref<Products | undefined>();
+const isLoggedIn = inject('isLoggedIn') as Ref<boolean>;
 
 const productSlug = route.params.product?.toString().toLowerCase() || "";
 const match = dummyProducts.find(p => p.title.toLowerCase() === productSlug);
@@ -259,6 +263,10 @@ if (!match) {
   margin-bottom: 10px;
 }
 
+.placeholder {
+  margin-top: 30px;
+}
+
 @media screen and (max-width: 768px) {
   .product-container {
     flex-direction: column;
@@ -334,7 +342,8 @@ if (!match) {
   margin-bottom: 4px;
 }
 
-.volume, .verpakking {
+.volume,
+.verpakking {
   font-size: 14px;
   margin-bottom: 8px;
 }
@@ -414,7 +423,7 @@ if (!match) {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 999;
   display: flex;
   align-items: center;
