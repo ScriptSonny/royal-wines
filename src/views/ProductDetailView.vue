@@ -25,10 +25,11 @@
             <h1>{{ product.title }}</h1>
             <h2>{{ product.volume }} cl</h2>
 
-            <button class="add-btn" @click="openAddOverlay">
+            <button v-if="isLoggedIn" class="add-btn" @click="openAddOverlay">
               <Icon icon="mdi:cart" />
               TOEVOEGEN
             </button>
+            <div v-else class="add-btn placeholder-btn"></div>
 
             <hr />
 
@@ -71,18 +72,25 @@
           <div class="overlay-info">
             <h2>{{ product?.title }}</h2>
             <p class="volume">{{ product?.volume }} cl</p>
-            <p class="verpakking">Per verpakking: 6 ds</p>
+            <p class="packaging">Per verpakking: 6 ds</p>
 
-            <div class="aantal-container">
+            <div class="size-container">
               <span>Aantal:</span>
               <button @click="decreaseQty">-</button>
-              <input type="number" v-model.number="quantity" min="1" class="aantal-input" />
+              <input type="number" v-model.number="quantity" min="1" class="size-input" />
               <button @click="increaseQty">+</button>
             </div>
 
-            <p class="prijs" v-if="isLoggedIn">€ {{ totalPrice.toFixed(2) }}</p>
+            <p v-if="isLoggedIn">
+              <span v-if="discount.percent > 0" class="price">
+                <span class="old-price">€ {{ (basePrice * quantity).toFixed(2) }}</span>
+                <span class="discounted-price">€ {{ totalPrice.toFixed(2) }}</span>
+                <br /><small>{{ discount.percent }}% korting toegepast</small>
+              </span>
+              <span v-else class="price">€ {{ totalPrice.toFixed(2) }}</span>
+            </p>
             <p class="placeholder" v-if="!isLoggedIn">-</p>
-            <button class="bestel-btn">BESTELLEN</button>
+            <button class="order-btn">BESTELLEN</button>
           </div>
         </div>
       </div>
@@ -125,9 +133,22 @@ const decreaseQty = () => {
   if (quantity.value > 1) quantity.value--;
 };
 
+function calculateDiscountedPrice(basePrice: number, qty: number) {
+  if (qty >= 48) return { price: basePrice * 0.8, percent: 20 };
+  if (qty >= 24) return { price: basePrice * 0.85, percent: 15 };
+  if (qty >= 12) return { price: basePrice * 0.90, percent: 10 };
+  if (qty >= 6) return { price: basePrice * 0.95, percent: 5 };
+  return { price: basePrice, percent: 0 };
+}
+
+const basePrice = computed(() => product.value?.salesPrice ?? product.value?.price ?? 0);
+
+const discount = computed(() => {
+  return calculateDiscountedPrice(basePrice.value, quantity.value);
+});
+
 const totalPrice = computed(() => {
-  const basePrice = product.value?.salesPrice ?? product.value?.price ?? 0;
-  return basePrice * quantity.value;
+  return discount.value.price * quantity.value;
 });
 
 if (!match) {
@@ -206,6 +227,10 @@ if (!match) {
   color: #663333;
 }
 
+.placeholder-btn {
+  visibility: hidden;
+}
+
 .add-btn {
   background-color: #E59F01;
   color: white;
@@ -224,10 +249,27 @@ if (!match) {
 }
 
 .price {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: #B02E2E;
   margin: 20px 0;
+}
+
+.price small {
+  font-size: 16px;
+}
+
+.old-price {
+  font-size: 20px;
+  text-decoration: line-through;
+  color: #999;
+  margin-right: 6px;
+}
+
+.discounted-price {
+  font-size: 20px;
+  color: #B02E2E;
+  font-weight: bold;
 }
 
 .details {
@@ -347,7 +389,7 @@ if (!match) {
 }
 
 .volume,
-.verpakking {
+.packaging {
   font-size: 14px;
   margin-bottom: 8px;
 }
@@ -356,14 +398,14 @@ if (!match) {
   font-weight: bold;
 }
 
-.aantal-container {
+.size-container {
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 12px 0;
 }
 
-.aantal-container button {
+.size-container button {
   width: 32px;
   height: 32px;
   font-size: 20px;
@@ -374,12 +416,12 @@ if (!match) {
   cursor: pointer;
 }
 
-.aantal-container button:hover {
+.size-container button:hover {
   background-color: #663333;
   color: #F8F3E6;
 }
 
-.aantal-input {
+.size-input {
   width: 48px;
   height: 32px;
   text-align: center;
@@ -389,25 +431,25 @@ if (!match) {
   background-color: transparent;
 }
 
-.aantal-input::-webkit-inner-spin-button,
-.aantal-input::-webkit-outer-spin-button {
+.size-input::-webkit-inner-spin-button,
+.size-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.aantal-input[type=number] {
+.size-input[type=number] {
   -moz-appearance: textfield;
   appearance: none;
 }
 
-.prijs {
+.price {
   font-size: 24px;
   font-weight: bold;
   color: #B02E2E;
   margin-bottom: 12px;
 }
 
-.bestel-btn {
+.order-btn {
   align-self: flex-end;
   background-color: #E59F01;
   color: white;
@@ -415,9 +457,10 @@ if (!match) {
   padding: 8px 16px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 20px;
 }
 
-.bestel-btn:hover {
+.order-btn:hover {
   background-color: #B8860B;
 }
 

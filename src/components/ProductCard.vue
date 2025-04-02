@@ -6,13 +6,17 @@
     <img :src="image" alt="Product image" class="product-image" />
 
     <div class="product-info">
-      <h3>{{ title }}</h3>
-      <p class="volume">{{ volume }} cl</p>
-      <p class="price" v-if="salesPrice">
-        <span class="old-price">€ {{ price.toFixed(2) }}</span>
-        <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
-      </p>
-      <!-- Alleen tonen als ingelogd -->
+      <div class="top-info">
+        <h3>{{ title }}</h3>
+        <p class="volume">{{ volume }} cl</p>
+      </div>
+      <div class="bottom-info">
+        <p class="price" v-if="salesPrice">
+          <span class="old-price">€ {{ price.toFixed(2) }}</span>
+          <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
+        </p>
+      </div>
+      <!-- Only show when logged in -->
       <p v-if="isLoggedIn">
         <span v-if="salesPrice" class="price">
           <span class="old-price">€ {{ price.toFixed(2) }}</span>
@@ -27,7 +31,7 @@
         <router-link :to="`/product-info/${encodeURIComponent(title)}`" class="info-btn">
           INFO
         </router-link>
-        <button class="add-btn" @click="openOverlay">
+        <button v-if="isLoggedIn" class="add-btn" @click="openOverlay">
           <Icon icon="mdi:cart" />
           KIES
         </button>
@@ -44,18 +48,27 @@
         <div class="overlay-info">
           <h2>{{ title }}</h2>
           <p class="volume">{{ volume }} cl</p>
-          <p class="verpakking">Per verpakking: 6 ds</p>
+          <p class="packaging">Per verpakking: 6 ds</p>
 
-          <div class="aantal-container">
+          <div class="size-container">
             <span>Aantal:</span>
             <button @click="decreaseQty">-</button>
-            <input type="number" v-model.number="quantity" min="1" class="aantal-input" />
+            <input type="number" v-model.number="quantity" min="1" class="size-input" />
             <button @click="increaseQty">+</button>
           </div>
 
-          <p class="prijs" v-if="isLoggedIn">€ {{ totalPrice.toFixed(2) }}</p>
+          <div v-if="isLoggedIn" class="staffelprice">
+            <template v-if="discount.percent > 0">
+              <span class="old-price">€ {{ (basePrice * quantity).toFixed(2) }}</span>
+              <span class="discounted-price">€ {{ totalPrice.toFixed(2) }}</span>
+              <br /><small>{{ discount.percent }}% korting toegepast</small>
+            </template>
+            <template v-else>
+              <span class="discounted-price">€ {{ totalPrice.toFixed(2) }}</span>
+            </template>
+          </div>
           <p class="placeholder" v-if="!isLoggedIn">-</p>
-          <button class="bestel-btn">BESTELLEN</button>
+          <button class="order-btn">BESTELLEN</button>
         </div>
       </div>
     </div>
@@ -96,15 +109,26 @@ const closeOverlay = () => {
   showOverlay.value = false;
 };
 
-const totalPrice = computed(() => {
-  const base = props.salesPrice ?? props.price;
-  return base * quantity.value;
+function calculateDiscountedPrice(basePrice: number, qty: number) {
+  if (qty >= 48) return { price: basePrice * 0.8, percent: 20 };
+  if (qty >= 24) return { price: basePrice * 0.85, percent: 15 };
+  if (qty >= 12) return { price: basePrice * 0.90, percent: 10 };
+  if (qty >= 6) return { price: basePrice * 0.95, percent: 5 };
+  return { price: basePrice, percent: 0 };
+}
+
+const basePrice = computed(() => props.salesPrice ?? props.price);
+
+const discount = computed(() => {
+  return calculateDiscountedPrice(basePrice.value, quantity.value);
 });
 
+const totalPrice = computed(() => {
+  return discount.value.price * quantity.value;
+});
 </script>
 
 <style scoped>
-/* Overlay styles */
 .overlay-backdrop {
   position: fixed;
   top: 0;
@@ -148,9 +172,10 @@ const totalPrice = computed(() => {
 }
 
 .overlay-img {
-  height: 220px;
+  max-height: 220px;
+  height: auto;
   max-width: 140px;
-  object-fit: cover;
+  object-fit: contain;
   flex: 1;
 }
 
@@ -169,19 +194,19 @@ const totalPrice = computed(() => {
 }
 
 .volume,
-.verpakking {
+.packaging {
   font-size: 14px;
   margin-bottom: 8px;
 }
 
-.aantal-container {
+.size-container {
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 12px 0;
 }
 
-.aantal-container button {
+.size-container button {
   width: 32px;
   height: 32px;
   font-size: 20px;
@@ -192,12 +217,12 @@ const totalPrice = computed(() => {
   cursor: pointer;
 }
 
-.aantal-container button:hover {
+.size-container button:hover {
   background-color: #663333;
   color: #F8F3E6;
 }
 
-.aantal-input {
+.size-input {
   width: 48px;
   height: 32px;
   text-align: center;
@@ -207,13 +232,13 @@ const totalPrice = computed(() => {
   color: #663333;
 }
 
-.aantal-input::-webkit-inner-spin-button,
-.aantal-input::-webkit-outer-spin-button {
+.size-input::-webkit-inner-spin-button,
+.size-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.aantal-input[type=number] {
+.size-input[type=number] {
   -moz-appearance: textfield;
   appearance: none;
 }
@@ -223,14 +248,18 @@ const totalPrice = computed(() => {
   visibility: hidden;
 }
 
-.prijs {
+.price {
   font-size: 24px;
   font-weight: bold;
   color: #B02E2E;
   margin-bottom: 12px;
 }
 
-.bestel-btn {
+.staffelprice {
+  margin-bottom: 20px;
+}
+
+.order-btn {
   align-self: flex-end;
   background-color: #E59F01;
   color: white;
@@ -240,7 +269,7 @@ const totalPrice = computed(() => {
   cursor: pointer;
 }
 
-.bestel-btn:hover {
+.order-btn:hover {
   background-color: #B8860B;
 }
 

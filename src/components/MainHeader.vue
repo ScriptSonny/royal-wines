@@ -9,7 +9,7 @@
           <img src="@/assets/logo.png" alt="Royal Wines & Drinks" class="logo" />
         </router-link>
 
-        <div class="search-container">
+        <div :class="['search-container', { 'wide-search': !isLoggedIn }]">
           <Icon icon="material-symbols:search" color="#663333" width="24" style="margin: 8px;" />
           <input type="text" placeholder="Zoek..." class="search-input" aria-label="Zoekveld" v-model="searchQuery"
             @keyup.enter="handleSearch" />
@@ -20,7 +20,8 @@
           <router-link v-else to="/login" class="login-btn btn">
             LOGIN
           </router-link>
-          <button class="cart-btn btn">
+
+          <button v-if="isLoggedIn" class="cart-btn btn">
             <Icon icon="material-symbols:add-shopping-cart" /> € 0,00
           </button>
         </div>
@@ -218,6 +219,11 @@ onUnmounted(() => {
 
 .search-input:focus {
   outline: none;
+}
+
+.wide-search {
+  max-width: 600px;
+  flex: 1;
 }
 
 .nav-link {
