@@ -172,9 +172,10 @@ const totalPrice = computed(() => {
 }
 
 .overlay-img {
-  height: 220px;
+  max-height: 220px;
+  height: auto;
   max-width: 140px;
-  object-fit: cover;
+  object-fit: contain;
   flex: 1;
 }
 
