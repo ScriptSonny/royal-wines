@@ -6,12 +6,16 @@
     <img :src="image" alt="Product image" class="product-image" />
 
     <div class="product-info">
-      <h3>{{ title }}</h3>
-      <p class="volume">{{ volume }} cl</p>
-      <p class="price" v-if="salesPrice">
-        <span class="old-price">€ {{ price.toFixed(2) }}</span>
-        <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
-      </p>
+      <div class="top-info">
+        <h3>{{ title }}</h3>
+        <p class="volume">{{ volume }} cl</p>
+      </div>
+      <div class="bottom-info">
+        <p class="price" v-if="salesPrice">
+          <span class="old-price">€ {{ price.toFixed(2) }}</span>
+          <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
+        </p>
+      </div>
       <!-- Alleen tonen als ingelogd -->
       <p v-if="isLoggedIn">
         <span v-if="salesPrice" class="price">
@@ -27,7 +31,7 @@
         <router-link :to="`/product-info/${encodeURIComponent(title)}`" class="info-btn">
           INFO
         </router-link>
-        <button class="add-btn" @click="openOverlay">
+        <button v-if="isLoggedIn" class="add-btn" @click="openOverlay">
           <Icon icon="mdi:cart" />
           KIES
         </button>

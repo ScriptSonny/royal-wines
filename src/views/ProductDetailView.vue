@@ -25,10 +25,11 @@
             <h1>{{ product.title }}</h1>
             <h2>{{ product.volume }} cl</h2>
 
-            <button class="add-btn" @click="openAddOverlay">
+            <button v-if="isLoggedIn" class="add-btn" @click="openAddOverlay">
               <Icon icon="mdi:cart" />
               TOEVOEGEN
             </button>
+            <div v-else class="add-btn placeholder-btn"></div>
 
             <hr />
 
@@ -204,6 +205,10 @@ if (!match) {
 .product-info {
   width: 50%;
   color: #663333;
+}
+
+.placeholder-btn {
+  visibility: hidden;
 }
 
 .add-btn {
