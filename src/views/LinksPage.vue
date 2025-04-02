@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="head-container">
         <main>
             <h2 class="title">Relaties</h2>
             <div class="grid-container">
@@ -53,10 +53,22 @@ main
     margin-top: 2rem;
 }
 
-.grid-container 
-{
+.head-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.grid-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
 }
 
 @media (min-width: 768px)

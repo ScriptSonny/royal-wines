@@ -20,16 +20,22 @@ export default {
 {
     width: 223px;
     height: 202px; 
-    background-color: linear-gradient(#FFF0CA, #F8F3E6);
+    background: linear-gradient(to bottom, rgb(255, 240, 202), rgb(248, 243, 230));
     padding: 1rem;
     box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo
 {
-    display: block;
-    margin: 0 auto 0.5rem;
+    max-width: 100%;
+    max-height: 100px;
+    height: auto;
+    object-fit: contain;
 }
 
 .title
