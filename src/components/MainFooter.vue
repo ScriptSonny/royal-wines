@@ -13,9 +13,9 @@
           </div>
 
           <div class="contact-details">
-            <p><Icon icon="material-symbols:phone-enabled" color="#663333" width="16" style="margin-right: 6px;"/> +31 592-614228</p>
-            <p><Icon icon="material-symbols:phone-iphone" color="#663333" width="16" style="margin-right: 6px;"/> +31 6-46068053</p>
-            <p><Icon icon="material-symbols:mail" color="#663333" width="16" style="margin-right: 6px;"/> verkoop@royalwinesanddrinks.nl</p>
+            <p><Icon icon="material-symbols:phone-enabled" color="#663333" width="16" style="margin-right: 6px;"/><a href="tel:+31592614228">+31 592-614228</a></p>
+            <p><Icon icon="material-symbols:phone-iphone" color="#663333" width="16" style="margin-right: 6px;"/><a href="tel:+31646068053">+31 6-46068053</a></p>
+            <p><Icon icon="material-symbols:mail" color="#663333" width="16" style="margin-right: 6px;"/><a href="mailto:verkoop@royalwinesanddrinks.nl">verkoop@royalwinesanddrinks.nl</a></p>
           </div>
         </div>
       </div>
@@ -90,9 +90,19 @@ defineOptions({
   display: flex;
 }
 
-.address p, .contact-details p {
+.address p {
   margin: 0.5rem 0;
   color: #333;
+}
+
+.contact-details a {
+  color: #333;
+  text-decoration: none;
+  margin: 0.125rem 0;
+}
+
+.contact-details a:hover {
+  color: #d4ac54;
 }
 
 .contact-details {
