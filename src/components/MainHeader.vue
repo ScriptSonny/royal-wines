@@ -180,9 +180,9 @@ onUnmounted(() => {
   color: #E59F01;
   cursor: pointer;
   height: 36px;
-  padding: 0 20px;
-  min-width: 100px;
-  font-size: 14px;
+  min-width: 90px;
+  padding: 0 20px;  
+  font-size: 12px;
 }
 
 .btn:hover {
