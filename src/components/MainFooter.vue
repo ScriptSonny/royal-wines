@@ -31,9 +31,9 @@
           </ul>
 
           <ul class="footer-links">
-            <li><a href="#">Privacy statement (NL)</a></li>
-            <li><a href="#">Privacy statement (ENG)</a></li>
-            <li><a href="#">Algemene voorwaarden</a></li>
+            <li><a :href="privacyNL" target="_blank">Privacy statement (NL)</a></li>
+            <li><a :href="privacyEN" target="_blank">Privacy statement (ENG)</a></li>
+            <li><a :href="algemeneVoorwaarden" target="_blank">Algemene voorwaarden</a></li>
           </ul>
         </div>
       </div>
@@ -43,6 +43,9 @@
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
+import privacyNL from '@/assets/privacy-statement-nl.pdf';
+import privacyEN from '@/assets/privacy-statement-en.pdf';
+import algemeneVoorwaarden from '@/assets/algemenevoorwaarden.pdf'
 
 defineOptions({
   name: 'MainFooter'
