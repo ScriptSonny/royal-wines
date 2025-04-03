@@ -22,7 +22,7 @@
           </router-link>
 
           <router-link v-if="isLoggedIn" to="/cart" class="cart-btn btn">
-            <Icon icon="material-symbols:add-shopping-cart" /> € 0,00
+            <Icon icon="material-symbols:add-shopping-cart" /> € {{ totalCartValue }}
           </router-link>
         </div>
 
@@ -89,7 +89,7 @@
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
-import { ref, onMounted, onUnmounted, type Ref } from 'vue';
+import { ref, onMounted, onUnmounted, type Ref, computed } from 'vue';
 import { useRouter } from "vue-router";
 import { inject } from 'vue';
 
@@ -99,6 +99,27 @@ const searchQuery = ref("");
 const router = useRouter();
 
 const isLoggedIn = inject('isLoggedIn') as Ref<boolean>;
+
+  interface CartItem {
+  id: string;
+  name: string;
+  variant: string;
+  articleNr: string;
+  quantity: number;
+  perPack: number;
+  price: number;
+  image: string;
+}
+
+const cartItems = inject('cart') as Ref<CartItem[]>;
+
+const totalCartValue = computed(() => {
+  if (cartItems.value && cartItems.value.length > 0) {
+    return cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  } else {
+    return '0.00';
+  }
+});
 
 const logout = () => {
   localStorage.removeItem('isLoggedIn');

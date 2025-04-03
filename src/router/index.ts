@@ -5,7 +5,7 @@ import SalespageView from '@/views/SalespageView.vue';
 import SearchResultsView from '@/views/SearchResultsView.vue';
 import WinepageView from '@/views/WinepageView.vue';
 import LoginView from '@/views/LoginView.vue';
-import ShoppingBasket from '@/views/ShoppingBasket.vue';
+import Cart from '@/views/Cart.vue'
 import LinksPage from '@/views/LinksPage.vue';
 import ContactForm from '@/views/ContactForm.vue';
 import { createRouter, createWebHistory } from 'vue-router'
@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: '/cart',
       name: 'Cart',
-      component: ShoppingBasket
+      component: Cart
     },
     {
       path: '/links',

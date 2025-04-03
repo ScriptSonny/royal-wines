@@ -62,54 +62,26 @@
     </div>
 </template>
 
-<script setup>
-import { ref, computed } from "vue";
+<script setup lang="ts">
+import { ref, computed, onMounted } from "vue";
+import type { Ref } from "vue";
+import { inject } from "vue";
 
-const cartItems = ref([
-    {
-        id: 1,
-        name: "Cafe de Paris",
-        variant: "Ice Edition",
-        articleNr: "1667575",
-        quantity: 2,
-        perPack: 6,
-        price: 6.95,
-        image: "wine.png",
-    },
-    {
-        id: 2,
-        name: "Sottano Chardonnay",
-        variant: "",
-        articleNr: "1647561",
-        quantity: 1,
-        perPack: 6,
-        price: 6.95,
-        image: "chardonnay.png",
-  },
-  {
-        id: 3,
-        name: "Casa Silva Gran Reserva",
-        variant: "Petit Verdot",
-        articleNr: "1747811",
-        quantity: 1,
-        perPack: 6,
-        price: 6.00,
-        image: "petit_verdot.png",
-  },
-]);
+const cartItems = inject('cart') as Ref<any[]>;
+
 
 const totalItems = computed(() => cartItems.value.reduce((sum, item) => sum + item.quantity, 0));
 const totalPrice = computed(() => cartItems.value.reduce((sum, item) => sum + item.quantity * item.price, 0));
 
-const updateQuantity = (index, change) => {
+const updateQuantity = (index: number, change: number) => {
     cartItems.value[index].quantity += change;
 };
 
-const removeItem = (index) => {
+const removeItem = (index: number) => {
     cartItems.value.splice(index, 1);
 };
 
-const getImageUrl = (imagePath) => new URL(`@/assets/${imagePath}`, import.meta.url).href;
+const getImageUrl = (imagePath: String) => new URL(`@/assets/${imagePath}`, import.meta.url).href;
 </script>
 
 <style scoped>

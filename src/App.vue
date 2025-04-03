@@ -2,11 +2,16 @@
 import { RouterView } from 'vue-router'
 import MainHeader from './components/MainHeader.vue';
 import MainFooter from './components/MainFooter.vue';
+import Cart from './views/Cart.vue'
 
 import { provide, ref } from 'vue';
 
 const isLoggedIn = ref(localStorage.getItem('isLoggedIn') === 'true');
 provide('isLoggedIn', isLoggedIn);
+
+const cartItems = ref([]);
+
+provide('cart', cartItems);
 </script>
 
 <template>

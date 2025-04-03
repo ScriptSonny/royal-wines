@@ -6,17 +6,13 @@
     <img :src="image" alt="Product image" class="product-image" />
 
     <div class="product-info">
-      <div class="top-info">
-        <h3>{{ title }}</h3>
-        <p class="volume">{{ volume }} cl</p>
-      </div>
-      <div class="bottom-info">
-        <p class="price" v-if="salesPrice">
-          <span class="old-price">€ {{ price.toFixed(2) }}</span>
-          <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
-        </p>
-      </div>
-      <!-- Only show when logged in -->
+      <h3>{{ title }}</h3>
+      <p class="volume">{{ volume }} cl</p>
+      <p class="price" v-if="salesPrice">
+        <span class="old-price">€ {{ price.toFixed(2) }}</span>
+        <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
+      </p>
+      <!-- Alleen tonen als ingelogd -->
       <p v-if="isLoggedIn">
         <span v-if="salesPrice" class="price">
           <span class="old-price">€ {{ price.toFixed(2) }}</span>
@@ -31,7 +27,7 @@
         <router-link :to="`/product-info/${encodeURIComponent(title)}`" class="info-btn">
           INFO
         </router-link>
-        <button v-if="isLoggedIn" class="add-btn" @click="openOverlay">
+        <button class="add-btn" @click="openOverlay">
           <Icon icon="mdi:cart" />
           KIES
         </button>
@@ -48,27 +44,18 @@
         <div class="overlay-info">
           <h2>{{ title }}</h2>
           <p class="volume">{{ volume }} cl</p>
-          <p class="packaging">Per verpakking: 6 ds</p>
+          <p class="verpakking">Per verpakking: 6 ds</p>
 
-          <div class="size-container">
+          <div class="aantal-container">
             <span>Aantal:</span>
             <button @click="decreaseQty">-</button>
-            <input type="number" v-model.number="quantity" min="1" class="size-input" />
+            <input type="number" v-model.number="quantity" min="1" class="aantal-input" />
             <button @click="increaseQty">+</button>
           </div>
 
-          <div v-if="isLoggedIn" class="staffelprice">
-            <template v-if="discount.percent > 0">
-              <span class="old-price">€ {{ (basePrice * quantity).toFixed(2) }}</span>
-              <span class="discounted-price">€ {{ totalPrice.toFixed(2) }}</span>
-              <br /><small>{{ discount.percent }}% korting toegepast</small>
-            </template>
-            <template v-else>
-              <span class="discounted-price">€ {{ totalPrice.toFixed(2) }}</span>
-            </template>
-          </div>
+          <p class="prijs" v-if="isLoggedIn">€ {{ totalPrice.toFixed(2) }}</p>
           <p class="placeholder" v-if="!isLoggedIn">-</p>
-          <button class="order-btn">BESTELLEN</button>
+          <button class="bestel-btn" @click="addToCart">BESTELLEN</button>
         </div>
       </div>
     </div>
@@ -93,6 +80,8 @@ const isLoggedIn = inject('isLoggedIn') as Ref<boolean>;
 const showOverlay = ref(false);
 const quantity = ref(1);
 
+const cart = inject('cart') as Ref<any[]>;
+
 const props = defineProps<ProductCardProps>();
 
 const increaseQty = () => quantity.value++;
@@ -109,26 +98,31 @@ const closeOverlay = () => {
   showOverlay.value = false;
 };
 
-function calculateDiscountedPrice(basePrice: number, qty: number) {
-  if (qty >= 48) return { price: basePrice * 0.8, percent: 20 };
-  if (qty >= 24) return { price: basePrice * 0.85, percent: 15 };
-  if (qty >= 12) return { price: basePrice * 0.90, percent: 10 };
-  if (qty >= 6) return { price: basePrice * 0.95, percent: 5 };
-  return { price: basePrice, percent: 0 };
-}
+const addToCart = () => {
+  const productToAdd = {
+    id: props.title,
+    name: props.title,
+    variant: "",
+    quantity: quantity.value,
+    perPack: 6,
+    price: props.salesPrice ?? props.price,
+    image: props.image,
+  };
 
-const basePrice = computed(() => props.salesPrice ?? props.price);
+  cart.value.push(productToAdd);
 
-const discount = computed(() => {
-  return calculateDiscountedPrice(basePrice.value, quantity.value);
-});
+  closeOverlay();
+};
 
 const totalPrice = computed(() => {
-  return discount.value.price * quantity.value;
+  const base = props.salesPrice ?? props.price;
+  return base * quantity.value;
 });
+
 </script>
 
 <style scoped>
+/* Overlay styles */
 .overlay-backdrop {
   position: fixed;
   top: 0;
@@ -172,10 +166,9 @@ const totalPrice = computed(() => {
 }
 
 .overlay-img {
-  max-height: 220px;
-  height: auto;
+  height: 220px;
   max-width: 140px;
-  object-fit: contain;
+  object-fit: cover;
   flex: 1;
 }
 
@@ -194,19 +187,19 @@ const totalPrice = computed(() => {
 }
 
 .volume,
-.packaging {
+.verpakking {
   font-size: 14px;
   margin-bottom: 8px;
 }
 
-.size-container {
+.aantal-container {
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 12px 0;
 }
 
-.size-container button {
+.aantal-container button {
   width: 32px;
   height: 32px;
   font-size: 20px;
@@ -217,12 +210,12 @@ const totalPrice = computed(() => {
   cursor: pointer;
 }
 
-.size-container button:hover {
+.aantal-container button:hover {
   background-color: #663333;
   color: #F8F3E6;
 }
 
-.size-input {
+.aantal-input {
   width: 48px;
   height: 32px;
   text-align: center;
@@ -232,13 +225,13 @@ const totalPrice = computed(() => {
   color: #663333;
 }
 
-.size-input::-webkit-inner-spin-button,
-.size-input::-webkit-outer-spin-button {
+.aantal-input::-webkit-inner-spin-button,
+.aantal-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.size-input[type=number] {
+.aantal-input[type=number] {
   -moz-appearance: textfield;
   appearance: none;
 }
@@ -248,18 +241,14 @@ const totalPrice = computed(() => {
   visibility: hidden;
 }
 
-.price {
+.prijs {
   font-size: 24px;
   font-weight: bold;
   color: #B02E2E;
   margin-bottom: 12px;
 }
 
-.staffelprice {
-  margin-bottom: 20px;
-}
-
-.order-btn {
+.bestel-btn {
   align-self: flex-end;
   background-color: #E59F01;
   color: white;
@@ -269,7 +258,7 @@ const totalPrice = computed(() => {
   cursor: pointer;
 }
 
-.order-btn:hover {
+.bestel-btn:hover {
   background-color: #B8860B;
 }
 
