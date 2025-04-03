@@ -25,9 +25,9 @@
         <h3>Overig</h3>
         <div class="footer-content">
           <ul class="footer-links">
-            <li><a href="#">Contact opnemen</a></li>
-            <li><a href="#">Vacatures</a></li>
-            <li><a href="#">Relaties & Leveranciers</a></li>
+            <li><router-link to="/contact">Contact opnemen</router-link></li>
+            <li><router-link to="/contact">Vacatures</router-link></li>
+            <li><router-link to="/links">Relaties & Leveranciers</router-link></li>
           </ul>
 
           <ul class="footer-links">

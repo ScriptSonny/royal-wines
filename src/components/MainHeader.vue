@@ -21,9 +21,9 @@
             LOGIN
           </router-link>
 
-          <button v-if="isLoggedIn" class="cart-btn btn">
+          <router-link v-if="isLoggedIn" to="/cart" class="cart-btn btn">
             <Icon icon="material-symbols:add-shopping-cart" /> € 0,00
-          </button>
+          </router-link>
         </div>
 
         <div class="separator"></div>
@@ -62,12 +62,17 @@
           </div>
 
           <div class="icon-buttons">
-            <button class="icon-btn">
-              <Icon icon="material-symbols:person" width="20" />
+            <router-link v-if="isLoggedIn" to="/cart" class="icon-btn" aria-label="Winkelwagen">
+              <Icon icon="material-symbols:shopping-cart" width="20" />
+            </router-link>
+
+            <button v-if="isLoggedIn" @click="logout" class="icon-btn" aria-label="Uitloggen">
+              <Icon icon="material-symbols:logout" width="20" />
             </button>
-            <button class="icon-btn">
-              <Icon icon="material-symbols:shopping-cart" width="18" />
-            </button>
+
+            <router-link v-else to="/login" class="icon-btn" aria-label="Inloggen">
+              <Icon icon="material-symbols:login" width="20" />
+            </router-link>
           </div>
         </div>
 
@@ -348,6 +353,9 @@ onUnmounted(() => {
 }
 
 .icon-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: transparent;
   border: 2px solid #E59F01;
   width: 50px;
