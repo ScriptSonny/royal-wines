@@ -40,7 +40,7 @@
         <label for="file">Bijlagen</label>
         <div class="icon-input-wrapper">
           <input class="file-name-display" type="text" :value="selectedFileName" disabled />
-          <button class="upload-btn" @click.prevent="fileInput?.click()">Bestand kiezen</button>
+          <button class="upload-btn" @click.prevent="fileInput?.click()">Upload</button>
         </div>
         <input ref="fileInput" id="file" type="file" @change="handleFileUpload" style="display: none" />
       </div>
@@ -210,7 +210,7 @@ input.file-name-display {
 }
 
 .upload-btn {
-  background-color: #E59F01;
+  background-color: #663333;
   color: white;
   border: none;
   padding: 0.83rem 1rem;
@@ -220,7 +220,7 @@ input.file-name-display {
 }
 
 .upload-btn:hover {
-  background-color: #B8860B;
+  background-color: #422626;
 }
 
 .primary-btn {
