@@ -1,153 +1,243 @@
 <template>
-    <div>
-      <main>
-        <h2 class="title">Contact</h2>
-        <div class="form-container">
-          <div class="form-card">
-            <h3 class="form-title">Contact</h3>
-            <form>
-              <label for="name">Naam</label>
-              <div class="input-container">
-                <i class="fa-solid fa-user"></i>
-                <input type="text" placeholder="Naam" />
-              </div>
-  
-              <label for="email">E-mailadres</label>
-              <div class="input-container">
-                <i class="fa-regular fa-envelope"></i>
-                <input type="email" placeholder="E-mailadres" />
-              </div>
-  
-              <label for="message">Type bericht</label>
-              <select>
-                <option>{{ type }}</option>
-              </select>
-  
-              <label for="files">Bijlagen</label>
-              <div class="upload-container">
-                <input type="file" />
-                <button class="upload-btn" type="button">Upload</button>
-              </div>
-  
-              <label for="extraMessage">Uw opmerking</label>
-              <textarea></textarea>
-  
-              <div class="submit">
-                <button class="submit-btn" type="submit"><h3>VERSTUREN</h3></button>
-              </div>
-            </form>
-          </div>
+  <div class="page-title">
+    <h1>Contactformulier</h1>
+  </div>
+
+  <div class="contact-container">
+    <section class="contact-section">
+      <h2>{{ sectionTitle }}</h2>
+
+      <div class="input-wrapper">
+        <label for="name">Naam</label>
+        <div class="icon-input-wrapper">
+          <Icon icon="mdi:account" class="input-icon" />
+          <input id="name" type="text" placeholder="Naam" />
         </div>
-      </main>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    props: {
-      type: {
-        type: String,
-        required: true
-      }
-    }
+      </div>
+
+      <div class="input-wrapper">
+        <label for="mail">E-mailadres</label>
+        <div class="icon-input-wrapper">
+          <Icon icon="mdi:email" class="input-icon" />
+          <input id="mail" type="email" placeholder="E-mailadres" />
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <label for="type">Type bericht</label>
+        <div class="icon-input-wrapper select-wrapper">
+          <Icon icon="mdi:comment-question-outline" class="input-icon" />
+          <select id="type" v-model="selectedType">
+            <option>Vraag</option>
+            <option>Klacht</option>
+            <option>Vacature</option>
+            <option>Overig</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <label for="file">Bijlagen</label>
+        <div class="icon-input-wrapper">
+          <input class="file-name-display" type="text" :value="selectedFileName" disabled />
+          <button class="upload-btn" @click.prevent="fileInput?.click()">Bestand kiezen</button>
+        </div>
+        <input ref="fileInput" id="file" type="file" @change="handleFileUpload" style="display: none" />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="message">Uw opmerking</label>
+        <textarea id="message" placeholder="Typ hier uw bericht..."></textarea>
+      </div>
+
+      <div class="flex-right">
+        <button @click="submitForm" class="primary-btn">VERSTUREN</button>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { Icon } from '@iconify/vue';
+
+const selectedFileName = ref('');
+const fileInput = ref<HTMLInputElement | null>(null);
+const route = useRoute();
+const selectedType = ref('');
+const sectionTitle = ref('Contact');
+
+const handleFileUpload = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (file) {
+    selectedFileName.value = file.name;
   }
-  </script>
-  
-  <style scoped>
-  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
-  
-  main {
-    width: 980px;
-    margin: 0 auto;
-  }
-  
-  .title {
-    margin: 20px 0;
-    color: #5A2D2E;
-    font-size: 32px;
-    font-weight: 600;
-    padding: 0 20px;
-  }
-  
-  .form-container {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 50px;
-  }
-  
-  .form-card {
-    background-color: #FAF4E5;
-    padding: 2rem;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 439px;
-  }
-  
-  .form-title {
-    font-size: 20px;
-    color: #663333;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  label {
-    display: block;
-    margin-top: 1rem;
-    font-weight: 500;
-    font-size: 15px;
-    color: #663333;
-  }
-  
-  input,
-  select,
-  textarea {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
-    border: 1px solid #663333;
-    background-color: #FAF4E5;
-  }
-  
-  .input-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-  
-  .input-container i {
-    position: absolute;
-    left: 10px;
-    color: #663333;
-  }
-  
-  .input-container input {
-    padding-left: 30px;
-  }
-  
-  .upload-container {
-    display: flex;
-    align-items: flex-end;
-  }
-  
-  .upload-btn {
-    margin-left: 0.5rem;
-    padding: 0.6rem 1rem;
-    background-color: #663333;
-    color: white;
-    border: none;
-  }
-  
-  .submit {
-    display: flex;
-    flex-direction: row-reverse;
-  }
-  
-  .submit-btn {
-    border: 2px solid #E59F01;
-    background-color: #FAF4E5;
-    color: #E59F01;
-    margin-top: 0.5rem;
-    padding: 10px 18px;
-    cursor: pointer;
-  }
-  </style>
-  
+};
+
+const submitForm = () => {
+  alert('Formulier verzonden!');
+};
+
+if (route.query.type === 'vacature') {
+  sectionTitle.value = 'Vacature';
+  selectedType.value = 'Vacature';
+} else {
+  selectedType.value = 'Vraag';
+}
+</script>
+
+<style scoped>
+.page-title {
+  margin: 20px 0;
+}
+
+.page-title h1 {
+  color: #5A2D2E;
+  font-size: 24px;
+  font-weight: bold;
+  max-width: 948px;
+  margin: 0 auto;
+}
+
+.contact-container {
+  display: flex;
+  justify-content: center;
+  max-width: 948px;
+  margin: 0 auto 40px;
+  padding: 0 20px;
+}
+
+.contact-section {
+  flex: 1;
+  padding: 2rem;
+  background: #FFF7E0;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+  max-width: 450px;
+  width: 100%;
+}
+
+.contact-section h2 {
+  font-weight: bold;
+  color: #5A2D2E;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+  font-weight: bold;
+  color: #5A2D2E;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #663333;
+  font-size: 16px;
+  background-color: white;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 0.75rem;
+  border: 1px solid #663333;
+  font-size: 16px;
+  resize: vertical;
+  background-color: white;
+}
+
+.input-wrapper {
+  margin-bottom: 1rem;
+}
+
+.icon-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #5A2D2E;
+  font-size: 18px;
+}
+
+.icon-input-wrapper input,
+.icon-input-wrapper select {
+  padding-left: 36px;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper select {
+  appearance: none;
+}
+
+.select-wrapper::after {
+  content: '▼';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #5A2D2E;
+  pointer-events: none;
+}
+
+input.file-name-display {
+  padding-left: 0.75rem !important;
+}
+
+.file-name-display {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 14px;
+  border: 1px solid #663333;
+  background-color: white;
+  color: #663333;
+}
+
+.upload-btn {
+  background-color: #E59F01;
+  color: white;
+  border: none;
+  padding: 0.83rem 1rem;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.upload-btn:hover {
+  background-color: #B8860B;
+}
+
+.primary-btn {
+  background-color: #E59F01;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.primary-btn:hover {
+  background-color: #B8860B;
+}
+
+.flex-right {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

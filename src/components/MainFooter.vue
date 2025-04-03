@@ -26,7 +26,7 @@
         <div class="footer-content">
           <ul class="footer-links">
             <li><router-link to="/contact">Contact opnemen</router-link></li>
-            <li><router-link to="/contact">Vacatures</router-link></li>
+            <li><router-link :to="{ path: '/contact', query: { type: 'vacature' } }">Vacatures</router-link></li>
             <li><router-link to="/links">Relaties & Leveranciers</router-link></li>
           </ul>
 
