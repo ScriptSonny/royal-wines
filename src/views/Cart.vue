@@ -6,7 +6,6 @@
                 <thead>
                     <tr>
                         <th>Product</th>
-                        <th>ArtikelNr</th>
                         <th>Aantal</th>
                         <th>Per verpakking</th>
                         <th>Prijs</th>
@@ -23,7 +22,6 @@
                                 <p>{{ item.variant }}</p>
                             </div>
                         </td>
-                        <td>{{ item.articleNr }}</td>
                         <td class="quantity">
                             <button @click="updateQuantity(index, -1)" :disabled="item.quantity <= 1">-</button>
                             <span>{{ item.quantity }}</span>

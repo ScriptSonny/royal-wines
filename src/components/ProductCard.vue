@@ -8,10 +8,6 @@
     <div class="product-info">
       <h3>{{ title }}</h3>
       <p class="volume">{{ volume }} cl</p>
-      <p class="price" v-if="salesPrice">
-        <span class="old-price">€ {{ price.toFixed(2) }}</span>
-        <span class="discounted-price">€ {{ salesPrice.toFixed(2) }}</span>
-      </p>
       <!-- Alleen tonen als ingelogd -->
       <p v-if="isLoggedIn">
         <span v-if="salesPrice" class="price">
