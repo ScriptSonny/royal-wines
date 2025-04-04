@@ -55,11 +55,22 @@
                   </tr>
                 </tbody>
               </table>
-                <button class="btn-order">Bestellen</button>
+                <button class="btn-order" @click="openOverlay">Bestellen</button>
               </div>
             </div>
         </main>
     </div>
+
+    <!-- Besteloverlay -->
+    <div v-if="showOverlay" class="overlay-backdrop" @click.self="closeOverlay">
+      <div class="overlay-order">
+        <button class="overlay-close" @click="closeOverlay">X</button>
+        <div class="overlay-content">
+          <h2>Bestelling is geplaatst</h2>
+        </div>
+      </div>
+    </div>
+
 </template>
 
 <script setup lang="ts">
@@ -68,6 +79,7 @@ import type { Ref } from "vue";
 import { inject } from "vue";
 
 const cartItems = inject('cart') as Ref<any[]>;
+const showOverlay = ref(false);
 
 
 const totalItems = computed(() => cartItems.value.reduce((sum, item) => sum + item.quantity, 0));
@@ -82,6 +94,15 @@ const removeItem = (index: number) => {
 };
 
 const getImageUrl = (imagePath: String) => new URL(`@/assets/${imagePath}`, import.meta.url).href;
+
+const openOverlay = () => {
+  showOverlay.value = true;
+}
+
+const closeOverlay = () => {
+  showOverlay.value = false;
+}
+
 </script>
 
 <style scoped>
@@ -214,6 +235,54 @@ span {
   display: flex;
   flex-direction: row-reverse;
   margin-bottom: 20px;
+}
+
+/* Overlay styles */
+.overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.overlay-order {
+  background: linear-gradient(to bottom, #FFF0CA 38%, #F8F3E6 100%);
+  padding: 2rem;
+  max-width: 450px;
+  width: 95%;
+  border: 2px solid #663333;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: #663333;
+  cursor: pointer;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.overlay-content h2 {
+  font-size: 20px;
+  color: #5A2D2E;
 }
 
 </style>
